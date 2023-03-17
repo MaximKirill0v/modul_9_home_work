@@ -10,6 +10,15 @@ class Book:
     author: str
     price: str
 
+    def __init__(self, book_title: str, book_release: str, publisher: str, genre: str, author: str, price: str):
+        self.book_title = book_title
+        self.book_release = book_release
+        self.publisher = publisher
+        self.genre = genre
+        self.author = author
+        self.price = price
+
+
 def execute_application():
     pass
 
