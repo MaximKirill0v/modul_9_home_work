@@ -10,6 +10,15 @@ class Human:
     country: str
     address: dict[str, str]
 
+    def __init__(self, full_name: dict[str, str], date_of_birth: dict[str, str], phone: str, city: str, country: str,
+                 address: dict[str, str]):
+        self.full_name = full_name
+        self.date_of_birth = date_of_birth
+        self.phone = phone
+        self.city = city
+        self.country = country
+        self.address = address
+
 
 def execute_application():
     pass
