@@ -18,9 +18,18 @@ class Book:
         self.author = author
         self.price = price
 
+    def __str__(self):
+        return f"Название книги: '{self.book_title}'\n" \
+               f"Год выпуска книги: {self.book_release}\n" \
+               f"Издательство: {self.publisher}\n" \
+               f"Жанр: {self.genre}\n" \
+               f"Автор: {self.author}\n" \
+               f"Цена: {self.price}р."
+
 
 def execute_application():
     book_1 = Book("Вниз по волшебной реке", "2019", "АСТ", "Приключения", "Успенский Э.Н.", "250")
+    print(book_1)
 
 
 if __name__ == '__main__':
