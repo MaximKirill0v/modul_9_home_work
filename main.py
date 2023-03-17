@@ -19,13 +19,25 @@ class Human:
         self.country = country
         self.address = address
 
+    def __str__(self):
+        full_name = ", ".join(["-".join([key, value]) for key, value in self.full_name.items()])
+        date_of_birth = ".".join([value for value in self.date_of_birth.values()])
+        address = ", ".join(["-".join([key, value]) for key, value in self.address.items()])
+        return f"ФИО: {full_name}\n" \
+               f"Дата рождения: {date_of_birth}\n" \
+               f"Контактный телефон: {self.phone}\n" \
+               f"Страна: {self.country}\n" \
+               f"Город: {self.city}\n" \
+               f"Адрес: {address}"
+
 
 def execute_application():
     full_name = {"Фамилия": "Иванов", "Имя": "Иван", "Отчество": "Иванович"}
     date_of_birth = {"Число": "01", "Месяц": "01", "Год": "2001"}
     address = {"Страна": "Россия", "Область": "Ярославская", "Город": "Ярославль", "Улица": "Пионерская", "Дом": "1",
                "Квартира": "1"}
-    human_1 = Human(full_name, date_of_birth, "8(999)999 99 99", "Ярославль", "Россия", address)
+    human_1 = Human(full_name, date_of_birth, "8(999)999-99-99", "Ярославль", "Россия", address)
+    print(human_1)
 
 
 if __name__ == '__main__':
