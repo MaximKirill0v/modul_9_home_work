@@ -20,9 +20,18 @@ class Car:
         self.color = color
         self.price = price
 
+    def __str__(self):
+        return f"Модель автомобиля - '{self.name_model}'.\n" \
+               f"Год выпуска - {self.year_of_manufacture}г.\n" \
+               f"Производитель - {self.manufacturer}.\n" \
+               f"Объём двигателя - {self.engine_capacity}л.\n" \
+               f"Цвет кузова - {self.color}.\n" \
+               f"Цена - {self.price:,.2f}р."
+
 
 def execute_application():
-    my_car = Car("Cx-5", 2014, "Mazda", 2.0, "grey", 20000.0)
+    my_car = Car("Mustang", 2017, "Ford", 5.0, "Red", 3500000)
+    print(my_car)
 
 
 if __name__ == '__main__':
