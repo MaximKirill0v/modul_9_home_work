@@ -8,7 +8,7 @@ class Stadium:
     opening_date: dict[str, int]
     country: str
     city: str
-    capacity: float
+    capacity: int
 
 
 def execute_application():
