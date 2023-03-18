@@ -22,7 +22,7 @@ class Car:
 
 
 def execute_application():
-    pass
+    my_car = Car("Cx-5", 2014, "Mazda", 2.0, "grey", 20000.0)
 
 
 if __name__ == '__main__':
