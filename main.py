@@ -17,10 +17,19 @@ class Stadium:
         self.city = city
         self.capacity = capacity
 
+    def __str__(self):
+        opening_date = ".".join([value for value in self.opening_date.values()])
+        return f"Название стадиона: '{self.stadium_name}'.\n" \
+               f"Дата открытия: {opening_date}г.\n" \
+               f"Страна: {self.country}.\n" \
+               f"Город: {self.city}.\n" \
+               f"Вместительность: {self.capacity:,}."
+
 
 def execute_application():
     opening_date = {"Число": "31", "Месяц": "07", "Год": "1956"}
-    luzhniki_stadium = Stadium("Luzhniki", opening_date, "Россия", "Москва", 76880)
+    stadium_1 = Stadium("Лужники", opening_date, "Россия", "Москва", 76880)
+    print(stadium_1)
 
 
 if __name__ == '__main__':
