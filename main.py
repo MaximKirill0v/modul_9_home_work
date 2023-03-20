@@ -14,7 +14,7 @@ class Book:
 
 
 def execute_application():
-    pass
+    my_book = Book("Вниз по волшебной реке", 2019, "АСТ", "Приключения", "Успенский Э.Н.", 250)
 
 
 if __name__ == '__main__':
