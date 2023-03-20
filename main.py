@@ -14,6 +14,17 @@ class Human:
         self.__country = country
         self.__address = address
 
+    def __str__(self):
+        full_name = ", ".join(["-".join([key, value]) for key, value in self.__full_name.items()])
+        date_of_birth = ".".join([value for value in self.__date_of_birth.values()])
+        address = ", ".join(["-".join([key, value]) for key, value in self.__address.items()])
+        return f"ФИО: {full_name}\n" \
+               f"Дата рождения: {date_of_birth}\n" \
+               f"Контактный телефон: {self.__phone}\n" \
+               f"Страна: {self.__country}\n" \
+               f"Город: {self.__city}\n" \
+               f"Адрес: {address}"
+
 
 def execute_application():
     full_name = {"Фамилия": "Иванов", "Имя": "Иван", "Отчество": "Иванович"}
