@@ -4,13 +4,13 @@
 # конструктор по умолчанию и метод для вывода данных.
 class Book:
     book_title: str
-    book_release: str
+    book_release: int
     publisher: str
     genre: str
     author: str
-    price: str
+    price: float
 
-    def __init__(self, book_title: str, book_release: str, publisher: str, genre: str, author: str, price: str):
+    def __init__(self, book_title: str, book_release: int, publisher: str, genre: str, author: str, price: float):
         self.book_title = book_title
         self.book_release = book_release
         self.publisher = publisher
@@ -28,7 +28,7 @@ class Book:
 
 
 def execute_application():
-    book_1 = Book("Вниз по волшебной реке", "2019", "АСТ", "Приключения", "Успенский Э.Н.", "250")
+    book_1 = Book("Вниз по волшебной реке", 2019, "АСТ", "Приключения", "Успенский Э.Н.", 250)
     print(book_1)
 
 
