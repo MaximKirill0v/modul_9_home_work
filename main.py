@@ -72,12 +72,13 @@ class Book:
 def execute_application():
     my_book = Book("Вниз по волшебной реке", 2019, "АСТ", "Приключения", "Успенский Э.Н.", 250)
     print(my_book)
-    print(my_book.book_title)
-    print(my_book.book_release)
-    print(my_book.publisher)
-    print(my_book.genre)
-    print(my_book.author)
-    print(my_book.price)
+    print("\nОбращение к отдельным полям при помощи методов класса 'get': ")
+    print(f"Название книги: {my_book.book_title}")
+    print(f"Год выпуска книги: {my_book.book_release}")
+    print(f"Издательство книги: {my_book.publisher}")
+    print(f"Жанр книги: {my_book.genre}")
+    print(f"Автор книги: {my_book.author}")
+    print(f"Цена книги: {my_book.price}р.")
 
 
 if __name__ == '__main__':
