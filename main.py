@@ -1,34 +1,36 @@
+from typing import Dict
+
+
 # Задание 1.
 # Реализуйте класс «Человек». Необходимо хранить в полях класса: ФИО,
 # дату рождения, контактный телефон, город, страну, домашний адрес.
 # Реализуйте конструктор по умолчанию и метод для вывода данных.
 class Human:
-    full_name: dict[str, str]
-    date_of_birth: dict[str, str]
+    full_name: Dict[str, str]
+    date_of_birth: Dict[str, str]
     phone: str
     city: str
     country: str
-    address: dict[str, str]
+    address: Dict[str, str]
 
-    def __init__(self, full_name: dict[str, str], date_of_birth: dict[str, str], phone: str, city: str, country: str,
-                 address: dict[str, str]):
-        self.full_name = full_name
-        self.date_of_birth = date_of_birth
+    def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], phone: str, city: str, country: str,
+                 address: Dict[str, str]):
+        self.full_name = full_name.copy()
+        self.date_of_birth = date_of_birth.copy()
         self.phone = phone
         self.city = city
         self.country = country
-        self.address = address
+        self.address = address.copy()
 
     def __str__(self):
-        full_name = ", ".join(["-".join([key, value]) for key, value in self.full_name.items()])
-        date_of_birth = ".".join([value for value in self.date_of_birth.values()])
-        address = ", ".join(["-".join([key, value]) for key, value in self.address.items()])
-        return f"ФИО: {full_name}\n" \
-               f"Дата рождения: {date_of_birth}\n" \
+        return f"ФИО: {' '.join(self.full_name.values())}\n" \
+               f"Дата рождения: {'.'.join(self.date_of_birth.values())}\n" \
                f"Контактный телефон: {self.phone}\n" \
                f"Страна: {self.country}\n" \
                f"Город: {self.city}\n" \
-               f"Адрес: {address}"
+               f"Адрес: Страна: {self.address['Страна']}, Область: {self.address['Область']}," \
+               f" Город: {self.address['Город']}, Улица: {self.address['Улица']}, Дом: {self.address['Дом']}, " \
+               f"Квартира: {self.address['Квартира']}."
 
 
 def execute_application():
