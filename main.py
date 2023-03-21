@@ -1,3 +1,6 @@
+from typing import Dict
+
+
 # Задание 2.
 # Реализуйте класс «Стадион». Необходимо хранить в полях класса:
 # название стадиона, дату открытия, страну, город, вместимость. Реализуйте
@@ -5,22 +8,21 @@
 
 class Stadium:
     stadium_name: str
-    opening_date: dict[str, str]
+    opening_date: Dict[str, str]
     country: str
     city: str
     capacity: int
 
-    def __init__(self, stadium_name: str, opening_date: dict[str, str], country: str, city: str, capacity: int):
+    def __init__(self, stadium_name: str, opening_date: Dict[str, str], country: str, city: str, capacity: int):
         self.stadium_name = stadium_name
-        self.opening_date = opening_date
+        self.opening_date = opening_date.copy()
         self.country = country
         self.city = city
         self.capacity = capacity
 
     def __str__(self):
-        opening_date = ".".join([value for value in self.opening_date.values()])
         return f"Название стадиона: '{self.stadium_name}'.\n" \
-               f"Дата открытия: {opening_date}г.\n" \
+               f"Дата открытия: {'.'.join(self.opening_date.values())}г.\n" \
                f"Страна: {self.country}.\n" \
                f"Город: {self.city}.\n" \
                f"Вместительность: {self.capacity:,}."
