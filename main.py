@@ -17,7 +17,7 @@ class Car:
 
 
 def execute_application():
-    pass
+    my_car = Car("Mustang", 2017, "Ford", 5.0, "Red", 3500000)
 
 
 if __name__ == '__main__':
