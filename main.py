@@ -21,6 +21,46 @@ class Stadium:
                f"Город: {self.__city}.\n" \
                f"Вместительность: {self.__capacity:,}."
 
+    @property
+    def stadium_name(self):
+        return self.__stadium_name
+
+    @stadium_name.setter
+    def stadium_name(self, stadium_name):
+        self.__stadium_name = stadium_name
+
+    @property
+    def opening_date(self):
+        return self.__opening_date
+
+    @opening_date.setter
+    def opening_date(self, opening_date):
+        self.__opening_date = opening_date
+
+    @property
+    def country(self):
+        return self.__country
+
+    @country.setter
+    def country(self, country):
+        self.__country = country
+
+    @property
+    def city(self):
+        return self.__city
+
+    @city.setter
+    def city(self, city):
+        self.__city = city
+
+    @property
+    def capacity(self):
+        return self.__capacity
+
+    @capacity.setter
+    def capacity(self, capacity):
+        self.__capacity = capacity
+
 
 def execute_application():
     opening_date = {"Число": "31", "Месяц": "07", "Год": "1956"}
