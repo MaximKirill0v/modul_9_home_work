@@ -7,7 +7,7 @@ from typing import Dict
 # конструктор по умолчанию и метод для вывода данных. Реализуйте доступ к
 # отдельным полям класса через методы класса (геттеры и сеттеры).
 class Stadium:
-    def __init__(self, stadium_name: str, opening_date: Dict[str, str], country: str, city: str, capacity: int):
+    def __init__(self, stadium_name: str, opening_date: Dict[str, str], country: str, city: str, capacity: int = 0):
         self.__stadium_name = stadium_name
         self.__opening_date = opening_date.copy()
         self.__country = country
@@ -16,7 +16,8 @@ class Stadium:
 
 
 def execute_application():
-    pass
+    opening_date = {"Число": "31", "Месяц": "07", "Год": "1956"}
+    stadium_1 = Stadium("Лужники", opening_date, "Россия", "Москва", 76880)
 
 
 if __name__ == '__main__':
