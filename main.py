@@ -14,10 +14,18 @@ class Stadium:
         self.__city = city
         self.__capacity = capacity
 
+    def __str__(self):
+        return f"Название стадиона: '{self.__stadium_name}'.\n" \
+               f"Дата открытия: {'.'.join(self.__opening_date.values())}г.\n" \
+               f"Страна: {self.__country}.\n" \
+               f"Город: {self.__city}.\n" \
+               f"Вместительность: {self.__capacity:,}."
+
 
 def execute_application():
     opening_date = {"Число": "31", "Месяц": "07", "Год": "1956"}
     stadium_1 = Stadium("Лужники", opening_date, "Россия", "Москва", 76880)
+    print(stadium_1)
 
 
 if __name__ == '__main__':
