@@ -7,7 +7,22 @@ from typing import Dict
 # Реализуйте конструктор по умолчанию и метод для вывода данных.
 # Реализуйте доступ к отдельным полям класса через методы класса (геттеры
 # и сеттеры).
+# Реализуйте в классе «Человек» дополнительный метод класса и
+# статический метод.
 class Human:
+    @classmethod
+    def init_from_file(cls, path: str):
+        with open(path, "r", encoding="utf-8") as file:
+            file = (file.readline().strip()).split()
+            full_name = {"Фамилия": file[0], "Имя": file[1], "Отчество": file[2]}
+            date_of_birth = {"Число": file[3], "Месяц": file[4], "Год": file[5]}
+            phone = file[6]
+            city = file[7]
+            country = file[8]
+            address = {"Страна": file[9], "Область": file[10], "Город": file[11], "Улица": file[12],
+                       "Дом": file[13], "Квартира": file[14]}
+            return cls(full_name, date_of_birth, phone, city, country, address)
+
     def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], phone: str, city: str, country: str,
                  address: Dict[str, str]):
         self.__full_name = full_name.copy()
@@ -77,19 +92,9 @@ class Human:
 
 
 def execute_application():
-    full_name = {"Фамилия": "Иванов", "Имя": "Иван", "Отчество": "Иванович"}
-    date_of_birth = {"Число": "01", "Месяц": "01", "Год": "2001"}
-    address = {"Страна": "Россия", "Область": "Ярославская", "Город": "Ярославль", "Улица": "Пионерская", "Дом": "1",
-               "Квартира": "1"}
-    human_1 = Human(full_name, date_of_birth, "8(999)999-99-99", "Ярославль", "Россия", address)
+    path_to_file = "human_data.txt"
+    human_1 = Human.init_from_file(path_to_file)
     print(human_1)
-    print("\nОбращение к отдельным полям при помощи методов класса 'get': ")
-    print(f"Телефон экземпляра класса Human - {human_1.phone}")
-    print(f"Город экземпляра класса Human - {human_1.city}")
-    print(f"Страна экземпляра класса Human - {human_1.country}")
-    print(f"ФИО экземпляра класса Human - {human_1.full_name}")
-    print(f"Дата рождения экземпляра класса Human - {human_1.date_of_birth}")
-    print(f"Адрес экземпляра класса Human - {human_1.address}")
 
 
 if __name__ == '__main__':
