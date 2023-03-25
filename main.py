@@ -12,6 +12,8 @@ from typing import Dict
 class Human:
     @classmethod
     def init_from_data_human(cls, data_human: list, index: int):
+        if index > len(data_human) - 1:
+            raise Exception(f"Индекс больше длины списка базы данных!")
         human = data_human[index].split()
         full_name = {"Фамилия": human[0], "Имя": human[1], "Отчество": human[2]}
         date_of_birth = {"Число": human[3], "Месяц": human[4], "Год": human[5]}
@@ -24,9 +26,13 @@ class Human:
 
     @staticmethod
     def read_data_human_in_file(path: str):
-        with open(path, "r", encoding="utf-8") as file:
-            data_human = file.read().strip().split('\n')
-            return data_human
+        try:
+            with open(path, "r", encoding="utf-8") as file:
+                data_human = file.read().strip().split('\n')
+                print(f"Файл '{path}' успешно считан.")
+                return data_human
+        except FileNotFoundError:
+            print(f"Не удалось открыть файл по указанному пути '{path}'")
 
     def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], phone: str, city: str, country: str,
                  address: Dict[str, str]):
@@ -98,11 +104,16 @@ class Human:
 
 def execute_application():
     path_to_file = "human_data.txt"
-    data_human = Human.read_data_human_in_file(path_to_file)
-    human_1 = Human.init_from_data_human(data_human, 0)
-    print(human_1)
-    human_2 = Human.init_from_data_human(data_human, 1)
-    print(human_2)
+    try:
+        data_human = Human.read_data_human_in_file(path_to_file)
+        human_1 = Human.init_from_data_human(data_human, 0)
+        print(human_1)
+        human_2 = Human.init_from_data_human(data_human, 1)
+        print(human_2)
+        human_3 = Human.init_from_data_human(data_human, 2)
+        print(human_3)
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
