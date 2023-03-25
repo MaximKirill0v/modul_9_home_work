@@ -12,6 +12,7 @@ from typing import Dict
 class Human:
     @classmethod
     def init_from_data_human(cls, data_human: list, index: int):
+        """Создаёт объект класса Human"""
         if index > len(data_human) - 1:
             raise Exception(f"Индекс больше длины списка базы данных!")
         human = data_human[index].split()
@@ -26,6 +27,7 @@ class Human:
 
     @staticmethod
     def read_data_human_in_file(path: str):
+        """Считывает базу данных из файла"""
         try:
             with open(path, "r", encoding="utf-8") as file:
                 data_human = file.read().strip().split('\n')
