@@ -11,17 +11,22 @@ from typing import Dict
 # статический метод.
 class Human:
     @classmethod
-    def init_from_file(cls, path: str):
+    def init_from_data_human(cls, data_human: list, index: int):
+        human = data_human[index].split()
+        full_name = {"Фамилия": human[0], "Имя": human[1], "Отчество": human[2]}
+        date_of_birth = {"Число": human[3], "Месяц": human[4], "Год": human[5]}
+        phone = human[6]
+        city = human[7]
+        country = human[8]
+        address = {"Страна": human[9], "Область": human[10], "Город": human[11], "Улица": human[12],
+                   "Дом": human[13], "Квартира": human[14]}
+        return cls(full_name, date_of_birth, phone, city, country, address)
+
+    @staticmethod
+    def read_data_human_in_file(path: str):
         with open(path, "r", encoding="utf-8") as file:
-            file = (file.readline().strip()).split()
-            full_name = {"Фамилия": file[0], "Имя": file[1], "Отчество": file[2]}
-            date_of_birth = {"Число": file[3], "Месяц": file[4], "Год": file[5]}
-            phone = file[6]
-            city = file[7]
-            country = file[8]
-            address = {"Страна": file[9], "Область": file[10], "Город": file[11], "Улица": file[12],
-                       "Дом": file[13], "Квартира": file[14]}
-            return cls(full_name, date_of_birth, phone, city, country, address)
+            data_human = file.read().strip().split('\n')
+            return data_human
 
     def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], phone: str, city: str, country: str,
                  address: Dict[str, str]):
@@ -93,8 +98,11 @@ class Human:
 
 def execute_application():
     path_to_file = "human_data.txt"
-    human_1 = Human.init_from_file(path_to_file)
+    data_human = Human.read_data_human_in_file(path_to_file)
+    human_1 = Human.init_from_data_human(data_human, 0)
     print(human_1)
+    human_2 = Human.init_from_data_human(data_human, 1)
+    print(human_2)
 
 
 if __name__ == '__main__':
