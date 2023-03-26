@@ -23,7 +23,13 @@ class Car:
                f"Производитель - {self.__manufacturer}.\n" \
                f"Объём двигателя - {self.__engine_capacity}л.\n" \
                f"Цвет кузова - {self.__color}.\n" \
-               f"Цена - {self.__price:,.2f}р."
+               f"Цена - {self.__price:,.2f}р.\n"
+
+    @classmethod
+    def init_car(cls, data_car: tuple):
+        """Создаёт объект класса Car"""
+        if Car.check_data_car(data_car):
+            return cls(data_car[0], data_car[1], data_car[2], data_car[3], data_car[4], data_car[5])
 
     @staticmethod
     def check_data_car(data_car: tuple):
@@ -32,13 +38,16 @@ class Car:
             if isinstance(data_car[1], int | float) and isinstance(data_car[3], int | float) and \
                                                                 isinstance(data_car[5], int | float):
                 if data_car[1] > 0 and data_car[3] > 0 and data_car[5] > 0:
-                    return data_car
+                    return True
                 else:
-                    print("Не корректные данные.")
+                    print(f"Не корректные данные. Переданные данные - {' '.join(map(str, data_car))}")
+                    return False
             else:
-                print("Не корректные данные, ожидалось число.")
+                print(f"Не корректные данные, ожидалось число. Переданные данные - {' '.join(map(str, data_car))}")
+                return False
         else:
-            print(f"В метод переданы не все данные об автомобиле.")
+            print(f"В метод переданы не все данные об автомобиле. Переданные данные - {' '.join(map(str, data_car))}")
+            return False
 
     @property
     def name_model(self):
@@ -91,10 +100,12 @@ class Car:
 
 def execute_application():
     my_car = "Mustang", 2017, "Ford", 5.0, "Red", 3500000
-    my_car = Car.check_data_car(my_car)
+    my_car = Car.init_car(my_car)
+    print(my_car)
 
-    your_car = "Urus", "2017", "Lamborghini", 4.0, "Yellow", 16500000
-    your_car = Car.check_data_car(your_car)
+    your_car = "Urus", 2017, "Lamborghini", 4.0, "Yellow", 16500000
+    your_car = Car.init_car(your_car)
+    print(your_car)
 
 
 if __name__ == '__main__':
