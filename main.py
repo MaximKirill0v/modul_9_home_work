@@ -14,7 +14,7 @@ class Human:
     def init_from_data_human(cls, data_human: list, index: int):
         """Создаёт объект класса Human"""
         if index > len(data_human) - 1:
-            raise Exception(f"Индекс больше длины списка базы данных!")
+            raise IndexError(f"Индекс больше длины списка базы данных!")
         human = data_human[index].split()
         full_name = {"Фамилия": human[0], "Имя": human[1], "Отчество": human[2]}
         date_of_birth = {"Число": human[3], "Месяц": human[4], "Год": human[5]}
