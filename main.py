@@ -3,8 +3,11 @@
 # название книги, год выпуска, издателя, жанр, автора, цену. Реализуйте
 # конструктор по умолчанию и метод для вывода данных. Реализуйте доступ к
 # отдельным полям класса через методы класса (геттеры и сеттеры).
+# Реализуйте в классе «Книга» дополнительный метод класса и
+# статический метод.
 class Book:
-    def __init__(self, book_title: str, book_release: int, publisher: str, genre: str, author: str, price: float):
+    def __init__(self, book_title: str = " ", book_release: int = 0, publisher: str = " ", genre: str = " ",
+                 author: str = " ", price: float = 0):
         self.__book_title = book_title
         self.__book_release = book_release
         self.__publisher = publisher
@@ -30,6 +33,24 @@ class Book:
                 return data_books
         except FileNotFoundError:
             print(f"Не удалось открыть файл по указанному пути '{path}'")
+
+    @classmethod
+    def init_from_data_books(cls, data_books: list, name_book: str):
+        """Создаёт объект класса Book по названию книги"""
+        found = False
+        for line in data_books:
+            if line.lower().startswith(name_book.lower()):
+                found = True
+                line = line.split(", ")
+                book_title = line[0]
+                book_release = line[1]
+                publisher = line[2]
+                genre = line[3]
+                author = line[4]
+                price = line[5]
+                return cls(book_title, int(book_release), publisher, genre, author, float(price))
+        if found is False:
+            print(f"Книги с названием '{name_book}' нет в базе данных.")
 
     @property
     def book_title(self):
@@ -83,7 +104,22 @@ class Book:
 def execute_application():
     path = "./data_books.txt"
     data_books = Book.read_data_books_in_file(path)
-    print(data_books)
+
+    data_book_1 = Book.init_from_data_books(data_books, "Хоббит или Туда и обратно")
+    if data_book_1:
+        print(data_book_1)
+
+    data_book_2 = Book.init_from_data_books(data_books, "Вниз по волшебной реке")
+    if data_book_2:
+        print(data_book_2)
+
+    data_book_3 = Book.init_from_data_books(data_books, "Гарри Поттер")
+    if data_book_3:
+        print(data_book_3)
+
+    book_4 = Book()
+    if book_4:
+        print(book_4)
 
 
 if __name__ == '__main__':
