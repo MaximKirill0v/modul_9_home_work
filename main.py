@@ -1,4 +1,5 @@
 from typing import Dict
+import re
 
 
 # Задание 2.
@@ -6,6 +7,8 @@ from typing import Dict
 # название стадиона, дату открытия, страну, город, вместимость. Реализуйте
 # конструктор по умолчанию и метод для вывода данных. Реализуйте доступ к
 # отдельным полям класса через методы класса (геттеры и сеттеры).
+# Реализуйте в классе «Стадион» дополнительный метод класса и
+# статический метод.
 class Stadium:
     def __init__(self, stadium_name: str, opening_date: Dict[str, str], country: str, city: str, capacity: int = 0):
         self.__stadium_name = stadium_name
@@ -20,6 +23,12 @@ class Stadium:
                f"Страна: {self.__country}.\n" \
                f"Город: {self.__city}.\n" \
                f"Вместительность: {self.__capacity:,}."
+
+    @staticmethod
+    def create_dict_opening_date(date: str):
+        if re.search(r'^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$', date):
+            date = date.split(".")
+            return {"Число": date[0], "Месяц": date[1], "Год": date[2]}
 
     @property
     def stadium_name(self):
@@ -63,7 +72,7 @@ class Stadium:
 
 
 def execute_application():
-    opening_date = {"Число": "31", "Месяц": "07", "Год": "1956"}
+    opening_date = Stadium.create_dict_opening_date("31.07.1956")
     stadium_1 = Stadium("Лужники", opening_date, "Россия", "Москва", 76880)
     print(stadium_1)
 
