@@ -20,6 +20,17 @@ class Book:
                f"Автор: {self.__author}\n" \
                f"Цена: {self.__price}р."
 
+    @staticmethod
+    def read_data_books_in_file(path: str):
+        """Считывает базу данных из файла"""
+        try:
+            with open(path, "r", encoding="utf-8") as file:
+                data_books = file.read().strip().split('\n')
+                print(f"Файл '{path}' успешно считан.")
+                return data_books
+        except FileNotFoundError:
+            print(f"Не удалось открыть файл по указанному пути '{path}'")
+
     @property
     def book_title(self):
         return self.__book_title
@@ -70,15 +81,9 @@ class Book:
 
 
 def execute_application():
-    my_book = Book("Вниз по волшебной реке", 2019, "АСТ", "Приключения", "Успенский Э.Н.", 250)
-    print(my_book)
-    print("\nОбращение к отдельным полям при помощи методов класса 'get': ")
-    print(f"Название книги: {my_book.book_title}")
-    print(f"Год выпуска книги: {my_book.book_release}")
-    print(f"Издательство книги: {my_book.publisher}")
-    print(f"Жанр книги: {my_book.genre}")
-    print(f"Автор книги: {my_book.author}")
-    print(f"Цена книги: {my_book.price}р.")
+    path = "./data_books.txt"
+    data_books = Book.read_data_books_in_file(path)
+    print(data_books)
 
 
 if __name__ == '__main__':
