@@ -4,6 +4,8 @@
 # цену. Реализуйте конструктор по умолчанию и метод для вывода данных.
 # Реализуйте доступ к отдельным полям класса через методы класса (геттеры
 # и сеттеры).
+# Реализуйте в классе «Автомобиль» дополнительный метод класса и
+# статический метод.
 
 class Car:
     def __init__(self, name_model: str, year_of_manufacture: int, manufacturer: str, engine_capacity: float, color: str,
@@ -22,6 +24,21 @@ class Car:
                f"Объём двигателя - {self.__engine_capacity}л.\n" \
                f"Цвет кузова - {self.__color}.\n" \
                f"Цена - {self.__price:,.2f}р."
+
+    @staticmethod
+    def check_data_car(data_car: tuple):
+        """Проверяет данные автомобиля на корректность"""
+        if len(data_car) == 6:
+            if isinstance(data_car[1], int | float) and isinstance(data_car[3], int | float) and \
+                                                                isinstance(data_car[5], int | float):
+                if data_car[1] > 0 and data_car[3] > 0 and data_car[5] > 0:
+                    return data_car
+                else:
+                    print("Не корректные данные.")
+            else:
+                print("Не корректные данные, ожидалось число.")
+        else:
+            print(f"В метод переданы не все данные об автомобиле.")
 
     @property
     def name_model(self):
@@ -73,8 +90,11 @@ class Car:
 
 
 def execute_application():
-    my_car = Car("Mustang", 2017, "Ford", 5.0, "Red", 3500000)
-    print(my_car)
+    my_car = "Mustang", 2017, "Ford", 5.0, "Red", 3500000
+    my_car = Car.check_data_car(my_car)
+
+    your_car = "Urus", "2017", "Lamborghini", 4.0, "Yellow", 16500000
+    your_car = Car.check_data_car(your_car)
 
 
 if __name__ == '__main__':
