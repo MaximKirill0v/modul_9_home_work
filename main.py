@@ -9,6 +9,10 @@ class Temperature:
     def celsius_to_fahrenheit(temperature: float):
         return temperature * 1.8 + 32
 
+    @staticmethod
+    def fahrenheit_to_celsius(temperature: float):
+        return (temperature - 32) / 1.8
+
 
 def execute_application():
     interface_data = input("Введите '1', если хотите перевести из градусов Цельсия в градусы по Фаренгейту,\n"
@@ -16,14 +20,40 @@ def execute_application():
                            "Введите '0', если хотите завершить программу.\n==> ")
     while interface_data != '0':
         if interface_data == '1':
-            temperature_celsius = input("Введите температуру в градусах по Цельсию: ")
-            if temperature_celsius.isdigit():
-                res_temperature = Temperature.celsius_to_fahrenheit(float(temperature_celsius))
-                print(f"Температура в переводе на градусы по Фаренгейту равна - {res_temperature}F.")
-            else:
+            try:
+                temperature_celsius = float(input("Введите температуру в градусах по Цельсию: "))
+                res_temperature = Temperature.celsius_to_fahrenheit(temperature_celsius)
+                print(f"Температура в переводе на градусы по Фаренгейту равна - {res_temperature}F.\n")
+                interface_data = input(
+                    "Введите '1', если хотите перевести из градусов Цельсия в градусы по Фаренгейту,\n"
+                    "Введите '2', если хотите перевести из градусов по Фаренгейту в градусы Цельсия\n"
+                    "Введите '0', если хотите завершить программу.\n==> ")
+            except ValueError:
                 print("Введённое значение не корректно. Повторите ввод.")
-                interface_data = input("Повторите ввод: ")
-
+                interface_data = input(
+                    "Введите '1', если хотите перевести из градусов Цельсия в градусы по Фаренгейту,\n"
+                    "Введите '2', если хотите перевести из градусов по Фаренгейту в градусы Цельсия\n"
+                    "Введите '0', если хотите завершить программу.\n==> ")
+        elif interface_data == '2':
+            try:
+                temperature_fahrenheit = float(input("Введите температуру в градусах по Фаренгейту: "))
+                res_temperature = Temperature.fahrenheit_to_celsius(temperature_fahrenheit)
+                print(f"Температура в переводе на градусы по Цельсию равна - {res_temperature}C.\n")
+                interface_data = input(
+                    "Введите '1', если хотите перевести из градусов Цельсия в градусы по Фаренгейту,\n"
+                    "Введите '2', если хотите перевести из градусов по Фаренгейту в градусы Цельсия\n"
+                    "Введите '0', если хотите завершить программу.\n==> ")
+            except ValueError:
+                print("Введённое значение не корректно. Повторите ввод.")
+                interface_data = input(
+                    "Введите '1', если хотите перевести из градусов Цельсия в градусы по Фаренгейту,\n"
+                    "Введите '2', если хотите перевести из градусов по Фаренгейту в градусы Цельсия\n"
+                    "Введите '0', если хотите завершить программу.\n==> ")
+        else:
+            interface_data = input(
+                "Введите '1', если хотите перевести из градусов Цельсия в градусы по Фаренгейту,\n"
+                "Введите '2', если хотите перевести из градусов по Фаренгейту в градусы Цельсия\n"
+                "Введите '0', если хотите завершить программу.\n==> ")
 
 
 if __name__ == '__main__':
