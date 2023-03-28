@@ -21,7 +21,7 @@ class Book:
                f"Издательство: {self.__publisher}\n" \
                f"Жанр: {self.__genre}\n" \
                f"Автор: {self.__author}\n" \
-               f"Цена: {self.__price}р."
+               f"Цена: {self.__price}р.\n"
 
     @staticmethod
     def read_data_books_in_file(path: str):
@@ -29,7 +29,7 @@ class Book:
         try:
             with open(path, "r", encoding="utf-8") as file:
                 data_books = file.read().strip().split('\n')
-                print(f"Файл '{path}' успешно считан.")
+                print(f"Файл '{path}' успешно считан.\n")
                 return data_books
         except FileNotFoundError:
             print(f"Не удалось открыть файл по указанному пути '{path}'")
@@ -50,7 +50,7 @@ class Book:
                 price = line[5]
                 return cls(book_title, int(book_release), publisher, genre, author, float(price))
         if found is False:
-            print(f"Книги с названием '{name_book}' нет в базе данных.")
+            print(f"Книги с названием '{name_book}' нет в базе данных.\n")
 
     @property
     def book_title(self):
@@ -105,7 +105,7 @@ def execute_application():
     path = "./data_books.txt"
     data_books = Book.read_data_books_in_file(path)
 
-    data_book_1 = Book.init_from_data_books(data_books, "Хоббит или Туда и обратно")
+    data_book_1 = Book.init_from_data_books(data_books, "Властелин колец")
     if data_book_1:
         print(data_book_1)
 
