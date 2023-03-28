@@ -7,7 +7,10 @@ from typing import Dict
 # Реализуйте конструктор по умолчанию и метод для вывода данных.
 # Реализуйте доступ к отдельным полям класса через методы класса (геттеры
 # и сеттеры).
+# Реализуйте в классе «Человек» дополнительный метод класса и
+# статический метод.
 class Human:
+
     def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], phone: str, city: str, country: str,
                  address: Dict[str, str]):
         self.__full_name = full_name.copy()
@@ -17,6 +20,32 @@ class Human:
         self.__country = country
         self.__address = address.copy()
 
+    @classmethod
+    def init_from_data_human(cls, data_human: list, index: int):
+        """Создаёт объект класса Human"""
+        if index > len(data_human) - 1:
+            raise IndexError(f"Индекс больше длины списка базы данных!")
+        human = data_human[index].split()
+        full_name = {"Фамилия": human[0], "Имя": human[1], "Отчество": human[2]}
+        date_of_birth = {"Число": human[3], "Месяц": human[4], "Год": human[5]}
+        phone = human[6]
+        city = human[7]
+        country = human[8]
+        address = {"Страна": human[9], "Область": human[10], "Город": human[11], "Улица": human[12],
+                   "Дом": human[13], "Квартира": human[14]}
+        return cls(full_name, date_of_birth, phone, city, country, address)
+
+    @staticmethod
+    def read_data_human_in_file(path: str):
+        """Считывает базу данных из файла"""
+        try:
+            with open(path, "r", encoding="utf-8") as file:
+                data_human = file.read().strip().split('\n')
+                print(f"Файл '{path}' успешно считан.")
+                return data_human
+        except FileNotFoundError:
+            print(f"Не удалось открыть файл по указанному пути '{path}'")
+
     def __str__(self):
         return f"ФИО: {' '.join(self.full_name.values())}\n" \
                f"Дата рождения: {'.'.join(self.date_of_birth.values())}\n" \
@@ -25,7 +54,7 @@ class Human:
                f"Город: {self.__city}\n" \
                f"Адрес: Страна: {self.address['Страна']}, Область: {self.address['Область']}," \
                f" Город: {self.address['Город']}, Улица: {self.address['Улица']}, Дом: {self.address['Дом']}, " \
-               f"Квартира: {self.address['Квартира']}."
+               f"Квартира: {self.address['Квартира']}.\n"
 
     @property
     def phone(self):
@@ -77,19 +106,18 @@ class Human:
 
 
 def execute_application():
-    full_name = {"Фамилия": "Иванов", "Имя": "Иван", "Отчество": "Иванович"}
-    date_of_birth = {"Число": "01", "Месяц": "01", "Год": "2001"}
-    address = {"Страна": "Россия", "Область": "Ярославская", "Город": "Ярославль", "Улица": "Пионерская", "Дом": "1",
-               "Квартира": "1"}
-    human_1 = Human(full_name, date_of_birth, "8(999)999-99-99", "Ярославль", "Россия", address)
-    print(human_1)
-    print("\nОбращение к отдельным полям при помощи методов класса 'get': ")
-    print(f"Телефон экземпляра класса Human - {human_1.phone}")
-    print(f"Город экземпляра класса Human - {human_1.city}")
-    print(f"Страна экземпляра класса Human - {human_1.country}")
-    print(f"ФИО экземпляра класса Human - {human_1.full_name}")
-    print(f"Дата рождения экземпляра класса Human - {human_1.date_of_birth}")
-    print(f"Адрес экземпляра класса Human - {human_1.address}")
+    path_to_file = "human_data.txt"
+    try:
+        data_human = Human.read_data_human_in_file(path_to_file)
+
+        human_1 = Human.init_from_data_human(data_human, 0)
+        print(human_1)
+
+        human_2 = Human.init_from_data_human(data_human, 1)
+        print(human_2)
+
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
