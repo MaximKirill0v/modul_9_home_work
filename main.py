@@ -10,6 +10,16 @@ from typing import Dict
 # Реализуйте в классе «Человек» дополнительный метод класса и
 # статический метод.
 class Human:
+
+    def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], phone: str, city: str, country: str,
+                 address: Dict[str, str]):
+        self.__full_name = full_name.copy()
+        self.__date_of_birth = date_of_birth.copy()
+        self.__phone = phone
+        self.__city = city
+        self.__country = country
+        self.__address = address.copy()
+
     @classmethod
     def init_from_data_human(cls, data_human: list, index: int):
         """Создаёт объект класса Human"""
@@ -36,15 +46,6 @@ class Human:
         except FileNotFoundError:
             print(f"Не удалось открыть файл по указанному пути '{path}'")
 
-    def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], phone: str, city: str, country: str,
-                 address: Dict[str, str]):
-        self.__full_name = full_name.copy()
-        self.__date_of_birth = date_of_birth.copy()
-        self.__phone = phone
-        self.__city = city
-        self.__country = country
-        self.__address = address.copy()
-
     def __str__(self):
         return f"ФИО: {' '.join(self.full_name.values())}\n" \
                f"Дата рождения: {'.'.join(self.date_of_birth.values())}\n" \
@@ -53,7 +54,7 @@ class Human:
                f"Город: {self.__city}\n" \
                f"Адрес: Страна: {self.address['Страна']}, Область: {self.address['Область']}," \
                f" Город: {self.address['Город']}, Улица: {self.address['Улица']}, Дом: {self.address['Дом']}, " \
-               f"Квартира: {self.address['Квартира']}."
+               f"Квартира: {self.address['Квартира']}.\n"
 
     @property
     def phone(self):
@@ -108,12 +109,13 @@ def execute_application():
     path_to_file = "human_data.txt"
     try:
         data_human = Human.read_data_human_in_file(path_to_file)
+
         human_1 = Human.init_from_data_human(data_human, 0)
         print(human_1)
+
         human_2 = Human.init_from_data_human(data_human, 1)
         print(human_2)
-        human_3 = Human.init_from_data_human(data_human, 2)
-        print(human_3)
+
     except Exception as e:
         print(e)
 
