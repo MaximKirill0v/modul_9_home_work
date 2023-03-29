@@ -10,7 +10,6 @@ import re
 # Реализуйте в классе «Стадион» дополнительный метод класса и
 # статический метод.
 class Stadium:
-    PATH_TO_FILE = "data_stadiums.txt"
 
     def __init__(self, stadium_name: str, opening_date: Dict[str, str], country: str, city: str, capacity: int = 0):
         self.__stadium_name = stadium_name
@@ -35,9 +34,9 @@ class Stadium:
             raise Exception(f"Дата не соответствует формату - 'DD.MM.YYYY'.")
 
     @classmethod
-    def init_data_stadium_from_file(cls, index: int):
+    def init_data_stadium_from_file(cls, path: str, index: int):
         """Создаёт объект класса Stadium"""
-        with open(cls.PATH_TO_FILE, "r", encoding="utf-8") as file:
+        with open(path, "r", encoding="utf-8") as file:
             data_stadiums = file.readlines()
             data_stadium = data_stadiums[index].strip().split(", ")
             opening_date = cls.create_dict_opening_date(data_stadium[1])
@@ -85,12 +84,13 @@ class Stadium:
 
 
 def execute_application():
+    path_to_file = "data_stadiums.txt"
     try:
         opening_date = Stadium.create_dict_opening_date("31.07.1956")
         stadium_1 = Stadium("Лужники", opening_date, "Россия", "Москва", 76880)
         print(stadium_1)
 
-        stadium_2 = Stadium.init_data_stadium_from_file(1)
+        stadium_2 = Stadium.init_data_stadium_from_file(path_to_file, 1)
         print(stadium_2)
     except Exception as e:
         print(e)
