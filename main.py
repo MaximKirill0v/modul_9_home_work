@@ -3,7 +3,7 @@
 # Фаренгейты и наоборот. У класса должно быть два статических метода: для
 # перевода из Цельсия в Фаренгейты и для перевода из Фаренгейта в Цельсия.
 
-class Temperature:
+class ConverterTemperature:
 
     @staticmethod
     def celsius_to_fahrenheit(temperature: float):
@@ -31,8 +31,8 @@ def execute_application():
         if interface_data == '1':
             try:
                 temperature_celsius = float(input("Введите температуру в градусах по Цельсию: "))
-                res_temperature = Temperature.celsius_to_fahrenheit(temperature_celsius)
-                print(f"Температура в переводе на градусы по Фаренгейту равна {res_temperature}F.\n")
+                res_temperature = ConverterTemperature.celsius_to_fahrenheit(temperature_celsius)
+                print(f"Температура в переводе на градусы по Фаренгейту равна {res_temperature: .2f} F.\n")
                 interface()
                 interface_data = input("==> ")
             except ValueError:
@@ -42,8 +42,8 @@ def execute_application():
         elif interface_data == '2':
             try:
                 temperature_fahrenheit = float(input("Введите температуру в градусах по Фаренгейту: "))
-                res_temperature = Temperature.fahrenheit_to_celsius(temperature_fahrenheit)
-                print(f"Температура в переводе на градусы по Цельсию равна {res_temperature}C.\n")
+                res_temperature = ConverterTemperature.fahrenheit_to_celsius(temperature_fahrenheit)
+                print(f"Температура в переводе на градусы по Цельсию равна {res_temperature: .2f } C.\n")
                 interface()
                 interface_data = input("==> ")
             except ValueError:
