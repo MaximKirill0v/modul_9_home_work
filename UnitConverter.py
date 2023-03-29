@@ -23,6 +23,3 @@ class UnitConverter:
     @staticmethod
     def lb_to_kilograms(lb: float):
         return lb * 0.454
-
-
-
