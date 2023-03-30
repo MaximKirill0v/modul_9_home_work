@@ -1,21 +1,47 @@
-from typing import Dict
+from typing import Tuple
 
 
 # Задание 1.
 # Создайте класс Device, который содержит информацию об устройстве.
 # С помощью механизма наследования, реализуйте класс CoffeeMachine
-# (содержит информацию о кофемашине), класс Blender (содержит информацию
+# (содержит информацию о кофе машине), класс Blender (содержит информацию
 # о блендере).
 class Device:
-    def __init__(self, device_name: str, type_of_power: str, size: Dict[str, float], price: float):
+    def __init__(self, device_name: str, type_of_power: str, price: float):
         self.__device_name = device_name
         self.__type_of_power = type_of_power
-        self.__size = size.copy()
         self.__price = price
+
+    def info(self):
+        print(f"Название класса: {self.__class__.__name__}\n"
+              f"Название устройства: {self.__device_name}\n"
+              f"Тип питания: {self.__type_of_power}\n"
+              f"Цена: {self.__price}р.")
+
+
+class CoffeeMachine(Device):
+    def __init__(self, device_name: str, type_of_power: str, price: float, max_pressure: int, power: int,
+                 type_of_coffee: tuple):
+        super().__init__(device_name, type_of_power, price)
+        self.__max_pressure = max_pressure
+        self.__power = power
+        self.__type_of_coffee = type_of_coffee
+
+    def info(self):
+        super().info()
+        print(f"Максимальное давление: {self.__max_pressure} бар.\n"
+              f"Мощность: {self.__power} Вт.\n"
+              f"Тип используемого кофе: {', '.join(self.__type_of_coffee)}")
 
 
 def execute_application():
-    pass
+    device = Device("Компьютерная мышка", "Батарейка", 500)
+    device.info()
+    print()
+
+    coffee_machine = CoffeeMachine("Кофе машина", "220В.", 40000, 15, 1450, ("зерновой", "молотый"))
+    coffee_machine.info()
+    print()
 
 
 if __name__ == '__main__':
