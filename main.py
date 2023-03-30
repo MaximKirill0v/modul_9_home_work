@@ -34,14 +34,29 @@ class CoffeeMachine(Device):
               f"Тип используемого кофе: {', '.join(self.__type_of_coffee)}")
 
 
+class Blender(Device):
+    def __init__(self, device_name: str, type_of_power: str, price: float, type_blender: str, number_of_speeds: int):
+        super().__init__(device_name, type_of_power, price)
+        self.__type_blender = type_blender
+        self.__number_of_speeds = number_of_speeds
+
+    def info(self):
+        super().info()
+        print(f"Тип блендера: {self.__type_blender}\n"
+              f"Количество скоростей: {self.__number_of_speeds}")
+
+
 def execute_application():
     device = Device("Компьютерная мышка", "Батарейка", 500)
     device.info()
     print()
 
-    coffee_machine = CoffeeMachine("Кофе машина", "220В.", 40000, 15, 1450, ("зерновой", "молотый"))
+    coffee_machine = CoffeeMachine("Кофе машина", "От сети", 40000, 15, 1450, ("зерновой", "молотый"))
     coffee_machine.info()
     print()
+
+    blender = Blender("Блендер", "От сети", 5000, "Погружной", 2)
+    blender.info()
 
 
 if __name__ == '__main__':
