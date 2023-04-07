@@ -1,5 +1,6 @@
 from figures import *
 
+
 # Задание 1.
 # Создайте базовый класс Shape для хранения плоских фигур.
 # Определите производные классы:
@@ -21,6 +22,12 @@ def execute_application():
 
     rectangle = Rectangle(0, 0, 6.0, 4.0)
     rectangle.info()
+
+    circle = Circle(0, 0, 5.0)
+    circle.info()
+
+    ellipse = Ellipse(0, 0, 8.0, 4.0)
+    ellipse.info()
 
 
 if __name__ == '__main__':
