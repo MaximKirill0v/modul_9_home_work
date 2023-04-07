@@ -19,6 +19,9 @@ def execute_application():
     square = Square(0, 0, 5.0)
     square.info()
 
+    rectangle = Rectangle(0, 0, 6.0, 4.0)
+    rectangle.info()
+
 
 if __name__ == '__main__':
     execute_application()
