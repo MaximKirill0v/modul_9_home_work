@@ -1,4 +1,7 @@
-from figures import *
+from Rectangle import *
+from Square import *
+from Circle import *
+from Ellipse import *
 
 
 # Задание 1.
@@ -18,16 +21,20 @@ from figures import *
 
 def execute_application():
     square = Square(0, 0, 5.0)
-    square.info()
 
     rectangle = Rectangle(0, 0, 6.0, 4.0)
-    rectangle.info()
 
     circle = Circle(0, 0, 5.0)
-    circle.info()
 
     ellipse = Ellipse(0, 0, 8.0, 4.0)
-    ellipse.info()
+
+    figures_list = [square, rectangle, circle, ellipse]
+    figures = None
+    try:
+        for figures in figures_list:
+            figures.info()
+    except AttributeError as e:
+        print(f"У класса '{figures.__class__.__name__}' нет такого метода.")
 
 
 if __name__ == '__main__':
