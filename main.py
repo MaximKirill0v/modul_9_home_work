@@ -9,7 +9,7 @@ from typing import Dict
 
 class Passport:
 
-    def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], gender: str):
+    def __init__(self, full_name: Dict[str, str] = None, date_of_birth: Dict[str, str] = None, gender: str = None):
         self.__full_name = full_name.copy()
         self.__date_of_birth = date_of_birth.copy()
         self.__gender = gender
@@ -22,8 +22,10 @@ class Passport:
 
 
 class InternationalPassport(Passport):
-    def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], gender: str, series: str,
-                 passport_no: str, state_code: str, date_of_issue: Dict[str, str], expiration_date: Dict[str, str]):
+    def __init__(self, full_name: Dict[str, str] = None, date_of_birth: Dict[str, str] = None, gender: str = None,
+                 series: str = None,
+                 passport_no: str = None, state_code: str = None, date_of_issue: Dict[str, str] = None,
+                 expiration_date: Dict[str, str] = None):
         super().__init__(full_name, date_of_birth, gender)
         self.__series = series
         self.__passport_no = passport_no
