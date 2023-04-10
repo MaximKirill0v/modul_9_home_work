@@ -18,3 +18,6 @@ class Circle(Shape):
         print(f"Класс фигуры: {self.__class__.__name__}\n"
               f"Радиус окружности равен: {self.__radius}\n"
               f"Координата центра окружности равна: ({self.x}, {self.y})\n")
+
+    def get_date_figure(self):
+        return {"Класс": self.__class__.__name__, "Координаты": (self.x, self.y), "Радиус": self.__radius}

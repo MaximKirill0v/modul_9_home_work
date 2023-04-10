@@ -24,16 +24,31 @@ def execute_application():
     square = Square(0, 0, 5.0)
     path_to_file = "figures_file/square.json"
     data_square = square.get_date_figure()
-    FigureManagement.save_square_data_to_a_file(path_to_file, data_square)
+    FigureManagement.save_data_to_a_file(path_to_file, data_square, square.__class__.__name__)
     reading_data_square = FigureManagement.read_data_to_a_file(path_to_file)
-    print(reading_data_square)
+    print(f"Считанные данные из файла '{path_to_file}': {reading_data_square}\n")
 
-    rectangle = Rectangle(0, 0, 6.0, 4.0)
+    rectangle = Rectangle(0, 1, 6.0, 4.0)
     path_to_file = "figures_file/rectangle.json"
+    data_rectangle = rectangle.get_date_figure()
+    FigureManagement.save_data_to_a_file(path_to_file, data_rectangle, square.__class__.__name__)
+    reading_data_rectangle = FigureManagement.read_data_to_a_file(path_to_file)
+    print(f"Считанные данные из файла '{path_to_file}': {reading_data_rectangle}\n")
 
     circle = Circle(0, 0, 5.0)
+    path_to_file = "figures_file/circle.json"
+    data_circle = circle.get_date_figure()
+    FigureManagement.save_data_to_a_file(path_to_file, data_circle, circle.__class__.__name__)
+    reading_data_circle = FigureManagement.read_data_to_a_file(path_to_file)
+    print(f"Считанные данные из файла '{path_to_file}': {reading_data_circle}\n")
 
     ellipse = Ellipse(0, 0, 8.0, 4.0)
+    path_to_file = "figures_file/ellipse.json"
+    data_ellipse = ellipse.get_date_figure()
+    print(data_ellipse)
+    FigureManagement.save_data_to_a_file(path_to_file, data_ellipse, ellipse.__class__.__name__)
+    reading_data_ellipse = FigureManagement.read_data_to_a_file(path_to_file)
+    print(f"Считанные данные из файла '{path_to_file}': {reading_data_ellipse}\n")
 
     figures_list = [square, rectangle, circle, ellipse]
     figures = None

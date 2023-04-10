@@ -28,3 +28,7 @@ class Rectangle(Shape):
               f"Длина прямоугольника равна: {self.__length}\n"
               f"Ширина прямоугольника равна: {self.__width}\n"
               f"Координата верхнего левого угла равна: ({self.x}, {self.y})\n")
+
+    def get_date_figure(self):
+        return {"Класс": self.__class__.__name__, "Координаты": (self.x, self.y), "Длина": self.__length,
+                "Ширина": self.__width}
