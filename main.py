@@ -8,8 +8,8 @@
 # статический метод.
 
 class Car:
-    def __init__(self, name_model: str, year_of_manufacture: int, manufacturer: str, engine_capacity: float, color: str,
-                 price: float):
+    def __init__(self, name_model: str = None, year_of_manufacture: int = None, manufacturer: str = None,
+                 engine_capacity: float = None, color: str = None, price: float = None):
         self.__name_model = name_model
         self.__year_of_manufacture = year_of_manufacture
         self.__manufacturer = manufacturer
@@ -36,7 +36,7 @@ class Car:
         """Проверяет данные автомобиля на корректность"""
         if len(data_car) == 6:
             if isinstance(data_car[1], int | float) and isinstance(data_car[3], int | float) and \
-                                                                isinstance(data_car[5], int | float):
+                    isinstance(data_car[5], int | float):
                 if data_car[1] > 0 and data_car[3] > 0 and data_car[5] > 0:
                     return True
                 else:
