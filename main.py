@@ -11,8 +11,8 @@ from typing import Dict
 # статический метод.
 class Human:
 
-    def __init__(self, full_name: Dict[str, str], date_of_birth: Dict[str, str], phone: str, city: str, country: str,
-                 address: Dict[str, str]):
+    def __init__(self, full_name: Dict[str, str] = None, date_of_birth: Dict[str, str] = None, phone: str = None,
+                 city: str = None, country: str = None, address: Dict[str, str] = None):
         self.__full_name = full_name.copy()
         self.__date_of_birth = date_of_birth.copy()
         self.__phone = phone
