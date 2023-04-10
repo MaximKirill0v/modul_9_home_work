@@ -4,7 +4,7 @@
 # (содержит информацию о кофе машине), класс Blender (содержит информацию
 # о блендере).
 class Device:
-    def __init__(self, device_name: str, type_of_power: str, price: float = None):
+    def __init__(self, device_name: str = None, type_of_power: str = None, price: float = None):
         self.__device_name = device_name
         self.__type_of_power = type_of_power
         self.__price = price
@@ -21,8 +21,8 @@ class Device:
 
 
 class CoffeeMachine(Device):
-    def __init__(self, device_name: str, type_of_power: str, power: int,
-                 type_of_coffee: tuple, price: float = None, max_pressure: int = None):
+    def __init__(self, device_name: str = None, type_of_power: str = None, power: int = None,
+                 type_of_coffee: tuple = None, price: float = None, max_pressure: int = None):
         super().__init__(device_name, type_of_power, price)
         self.__max_pressure = max_pressure
         self.__power = power
