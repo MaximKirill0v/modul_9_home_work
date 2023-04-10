@@ -11,7 +11,8 @@ import re
 # статический метод.
 class Stadium:
 
-    def __init__(self, stadium_name: str, opening_date: Dict[str, str], country: str, city: str, capacity: int = 0):
+    def __init__(self, stadium_name: str = None, opening_date: Dict[str, str] = None, country: str = None,
+                 city: str = None, capacity: int = 0):
         self.__stadium_name = stadium_name
         self.__opening_date = opening_date.copy()
         self.__country = country
