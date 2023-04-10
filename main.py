@@ -2,6 +2,7 @@ from Rectangle import *
 from Square import *
 from Circle import *
 from Ellipse import *
+from figure_management import *
 
 
 # Задание 1.
@@ -21,8 +22,14 @@ from Ellipse import *
 
 def execute_application():
     square = Square(0, 0, 5.0)
+    path_to_file = "figures_file/square.json"
+    data_square = square.get_date_figure()
+    FigureManagement.save_square_data_to_a_file(path_to_file, data_square)
+    reading_data_square = FigureManagement.read_data_to_a_file(path_to_file)
+    print(reading_data_square)
 
     rectangle = Rectangle(0, 0, 6.0, 4.0)
+    path_to_file = "figures_file/rectangle.json"
 
     circle = Circle(0, 0, 5.0)
 

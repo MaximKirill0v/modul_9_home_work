@@ -18,3 +18,6 @@ class Square(Shape):
         print(f"Класс фигуры: {self.__class__.__name__}\n"
               f"Сторона квадрата равна: {self.__side}\n"
               f"Координата верхнего левого угла равна: ({self.x}, {self.y})\n")
+
+    def get_date_figure(self):
+        return {"Класс": self.__class__.__name__, "Координаты": (self.x, self.y), "Сторона": self.__side}
