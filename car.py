@@ -5,5 +5,5 @@ class Car:
         self.__color = color
 
     def info(self):
-        return f"Модель: {self.__car_model}, Кузов: {self.__car_body}, Цвет: {self.__color}"
+        print(f"Модель: {self.__car_model}, Кузов: {self.__car_body}, Цвет: {self.__color},", end=" ")
 

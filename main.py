@@ -1,4 +1,5 @@
 from car import Car
+from type_engine import *
 
 
 # Задание 1.
@@ -8,8 +9,12 @@ from car import Car
 # наследникам методы, которые выводят информацию об объекте из классов
 # «Колесо», «Двигатель», «Двери» и т.п.
 def execute_application():
-    my_car = Car("Мазда", "Кроссовер", "Серый")
-    print(my_car.info())
+    gas_car = GasEngine("Мазда", "Кроссовер", "Серый", "Бензин")
+    gas_car.info()
+    diesel_car = DieselEngine("Рено", "Универсал", "Серебряный", "Дизель")
+    diesel_car.info()
+    electro_car = ElectroEngine("Тесла", "Седан", "Чёрный", "Электро")
+    electro_car.info()
 
 
 if __name__ == '__main__':
