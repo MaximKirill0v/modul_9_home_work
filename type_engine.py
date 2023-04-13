@@ -2,7 +2,7 @@ from car import Car
 from mixin_file import *
 
 
-class GasEngine(Car, EngineConditionMixin):
+class GasEngine(Car, EngineConditionMixin, StatusTireMixin):
     def __init__(self, car_model: str, car_body: str, color: str, fuel_type: str, brand_gasoline: int = None):
         super().__init__(car_model, car_body, color)
         self.__fuel_type = fuel_type
@@ -16,7 +16,7 @@ class GasEngine(Car, EngineConditionMixin):
             print(f"Тип топлива: {self.__fuel_type}, Марка бензина: {self.__brand_gasoline}")
 
 
-class DieselEngine(Car, EngineConditionMixin):
+class DieselEngine(Car, EngineConditionMixin, StatusTireMixin):
     def __init__(self, car_model: str, car_body: str, color: str, fuel_type: str, min_hpfp_pressure: float = None,
                  max_hpfp_pressure: float = None):
         super().__init__(car_model, car_body, color)
@@ -30,7 +30,7 @@ class DieselEngine(Car, EngineConditionMixin):
               f"Макс. давление тнвд: {self.__max_hpfp_pressure} бар")
 
 
-class ElectroEngine(Car, EngineConditionMixin):
+class ElectroEngine(Car, EngineConditionMixin, StatusTireMixin):
     def __init__(self, car_model: str, car_body: str, color: str, fuel_type: str, power_reserve: float = "Не задано"):
         super().__init__(car_model, car_body, color)
         self.__fuel_type = fuel_type
