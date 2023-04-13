@@ -1,14 +1,24 @@
 import random
+from abc import ABC, abstractmethod
 
 
-class EngineConditionMixin:
-    @staticmethod
-    def start_engine():
-        print("Двигатель заведён.")
+class EngineCondition(ABC):
+    @abstractmethod
+    def start_engine(self):
+        pass
 
-    @staticmethod
-    def stop_engine():
-        print("Двигатель остановлен.")
+    @abstractmethod
+    def stop_engine(self):
+        pass
+
+
+class EngineStartStopMixin(EngineCondition):
+
+    def start_engine(self):
+        print(f"{self.__class__.__name__}: Двигатель заведён.")
+
+    def stop_engine(self):
+        print(f"{self.__class__.__name__}: Двигатель остановлен.")
 
 
 class StatusTireMixin:
@@ -18,4 +28,3 @@ class StatusTireMixin:
         for key in stat_tires.keys():
             stat_tires[key] = random.choice(['Давление в норме', 'Низкое давление', 'Высокое давление'])
         return stat_tires
-

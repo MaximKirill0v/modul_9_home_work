@@ -2,9 +2,10 @@ from car import Car
 from mixin_file import *
 
 
-class GasEngine(Car, EngineConditionMixin, StatusTireMixin):
-    def __init__(self, car_model: str, car_body: str, color: str, fuel_type: str, brand_gasoline: int = None):
-        super().__init__(car_model, car_body, color)
+class GasEngine(Car, EngineStartStopMixin, StatusTireMixin):
+    def __init__(self, car_model: str, car_body: str, color: str, car_mileage: float, fuel_type: str,
+                 brand_gasoline: int = None):
+        super().__init__(car_model, car_body, color, car_mileage)
         self.__fuel_type = fuel_type
         self.__brand_gasoline = brand_gasoline
 
@@ -16,10 +17,10 @@ class GasEngine(Car, EngineConditionMixin, StatusTireMixin):
             print(f"Тип топлива: {self.__fuel_type}, Марка бензина: {self.__brand_gasoline}")
 
 
-class DieselEngine(Car, EngineConditionMixin, StatusTireMixin):
-    def __init__(self, car_model: str, car_body: str, color: str, fuel_type: str, min_hpfp_pressure: float = None,
-                 max_hpfp_pressure: float = None):
-        super().__init__(car_model, car_body, color)
+class DieselEngine(Car, EngineStartStopMixin, StatusTireMixin):
+    def __init__(self, car_model: str, car_body: str, color: str, car_mileage: float, fuel_type: str,
+                 min_hpfp_pressure: float = None, max_hpfp_pressure: float = None):
+        super().__init__(car_model, car_body, color, car_mileage)
         self.__fuel_type = fuel_type
         self.__min_hpfp_pressure = min_hpfp_pressure
         self.__max_hpfp_pressure = max_hpfp_pressure
@@ -30,12 +31,13 @@ class DieselEngine(Car, EngineConditionMixin, StatusTireMixin):
               f"Макс. давление тнвд: {self.__max_hpfp_pressure} бар")
 
 
-class ElectroEngine(Car, EngineConditionMixin, StatusTireMixin):
-    def __init__(self, car_model: str, car_body: str, color: str, fuel_type: str, power_reserve: float = "Не задано"):
-        super().__init__(car_model, car_body, color)
+class ElectroEngine(Car, EngineStartStopMixin, StatusTireMixin):
+    def __init__(self, car_model: str, car_body: str, color: str, car_mileage: float, fuel_type: str,
+                 power_reserve: float = "Не задано"):
+        super().__init__(car_model, car_body, color, car_mileage)
         self.__fuel_type = fuel_type
         self.__power_reserve = power_reserve
 
     def info(self):
         super().info()
-        print(f"Тип топлива: {self.__fuel_type}, Запас хода: {self.__power_reserve} км")
+        print(f"Тип питания: {self.__fuel_type}, Запас хода: {self.__power_reserve} км")
