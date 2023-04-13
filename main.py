@@ -1,4 +1,5 @@
 from type_engine import *
+from mixin_file import *
 
 
 # Задание 1.
@@ -25,6 +26,9 @@ def execute_application():
     diesel_car.stop_engine()
     print(electro_car.status_tire())
     print(electro_car.get_mileage_before_maintenance(electro_car.car_mileage) + "\n")
+
+    # tires = [StatusTireMixin.get_status_tires() for _ in range(4)]
+    # print(tires)
 
 
 if __name__ == '__main__':
