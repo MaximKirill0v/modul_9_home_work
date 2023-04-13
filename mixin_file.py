@@ -28,3 +28,16 @@ class StatusTireMixin:
         for key in stat_tires.keys():
             stat_tires[key] = random.choice(['Давление в норме', 'Низкое давление', 'Высокое давление'])
         return stat_tires
+
+
+class AutoRepair(ABC):
+    @abstractmethod
+    def get_mileage_before_maintenance(self, mileage: float):
+        pass
+
+
+class MileageBeforeMaintenanceMixin(AutoRepair):
+    def get_mileage_before_maintenance(self, mileage: float):
+        print(mileage)
+        return f"Следующее ТО через: {15000 - (mileage % 15000)} км."
+
