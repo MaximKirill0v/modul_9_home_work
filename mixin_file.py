@@ -43,7 +43,7 @@ class Tyre:
 class TyreMixin:
     @staticmethod
     def get_info_tyres(tyre: Tyre):
-        print(tyre.get_pressure_info())
+        return tyre.get_pressure_info()
 
 
 
@@ -55,5 +55,4 @@ class AutoRepair(ABC):
 
 class MileageBeforeMaintenanceMixin(AutoRepair):
     def get_mileage_before_maintenance(self, mileage: float):
-        print(mileage)
         return f"Следующее ТО через: {15000 - (mileage % 15000)} км."
