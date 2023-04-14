@@ -20,51 +20,31 @@ class EngineStartStopMixin(EngineCondition):
     def stop_engine(self):
         print(f"{self.__class__.__name__}: Двигатель остановлен.")
 
-    # class Tire:
-    #     def __init__(self, pressure: float):
-    #         self.__pressure = pressure
-    #
-    #     @property
-    #     def pressure(self):
-    #         return self.__pressure
-    #
-    #     @pressure.setter
-    #     def pressure(self, pressure):
-    #         self.__pressure = pressure
-    #
-    #     @staticmethod
-    #     def get_status_tires():
-    #         stat_tire = random.randint(1, 3)
-    #         if stat_tire == 1:
-    #             return "Низкое давление, подкачайте колесо."
-    #         elif stat_tire == 2:
-    #             return "Высокое давление, спустите воздух из колеса до соответствующего значения."
-    #         else:
-    #             return "Давление в норме."
-    #
-    #
+
+class Tyre:
+    def __init__(self, pressure: list[float]):
+        self.pressure = pressure
+        self.tyres_lst = ["Лев. переднее", "Лев. заднее", "Прав. переднее", "Прав. заднее"]
+        self.info_tyres = list()
+
+    def get_pressure_info(self):
+        for value in self.pressure:
+            if 1.9 <= value <= 2.4:
+                self.info_tyres.append("Давление в норме")
+            elif 0 <= value < 1.9:
+                self.info_tyres.append("Низкое давление")
+            elif value > 2.4:
+                self.info_tyres.append("Высокое давление")
+            else:
+                raise Exception(f"Не корректное значение давления.")
+        return dict(zip(self.tyres_lst, self.info_tyres))
 
 
-class StatusTireMixin:
+class TyreMixin:
     @staticmethod
-    def status_tire():
-        stat_tires = {"Лев. переднее": None, "Лев. заднее": None, "Прав. переднее": None, "Прав. заднее": None}
-        for key in stat_tires.keys():
-            stat_tires[key] = random.choice(['Давление в норме', 'Низкое давление', 'Высокое давление'])
-        return stat_tires
+    def get_info_tyres(tyre: Tyre):
+        print(tyre.get_pressure_info())
 
-
-# class StatusTire:
-#
-#     @staticmethod
-#     def get_status_tires():
-#         stat_tire = random.randint(1, 3)
-#         if stat_tire == 1:
-#             return "Низкое давление"
-#         elif stat_tire == 2:
-#             return "Высокое давление"
-#         else:
-#             return "Давление в норме"
 
 
 class AutoRepair(ABC):

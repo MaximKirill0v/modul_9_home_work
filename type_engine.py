@@ -2,7 +2,7 @@ from car import Car
 from mixin_file import *
 
 
-class GasEngine(Car, EngineStartStopMixin, StatusTireMixin, MileageBeforeMaintenanceMixin):
+class GasEngine(Car, EngineStartStopMixin, TyreMixin, MileageBeforeMaintenanceMixin):
     def __init__(self, car_model: str, car_body: str, color: str, car_mileage: float, fuel_type: str,
                  brand_gasoline: int = None):
         super().__init__(car_model, car_body, color, car_mileage)
@@ -17,7 +17,7 @@ class GasEngine(Car, EngineStartStopMixin, StatusTireMixin, MileageBeforeMainten
             print(f"Тип топлива: {self.__fuel_type}, Марка бензина: {self.__brand_gasoline}")
 
 
-class DieselEngine(Car, EngineStartStopMixin, StatusTireMixin, MileageBeforeMaintenanceMixin):
+class DieselEngine(Car, EngineStartStopMixin, TyreMixin, MileageBeforeMaintenanceMixin):
     def __init__(self, car_model: str, car_body: str, color: str, car_mileage: float, fuel_type: str,
                  min_hpfp_pressure: float = None, max_hpfp_pressure: float = None):
         super().__init__(car_model, car_body, color, car_mileage)
@@ -31,7 +31,7 @@ class DieselEngine(Car, EngineStartStopMixin, StatusTireMixin, MileageBeforeMain
               f"Макс. давление тнвд: {self.__max_hpfp_pressure} бар")
 
 
-class ElectroEngine(Car, EngineStartStopMixin, StatusTireMixin, MileageBeforeMaintenanceMixin):
+class ElectroEngine(Car, EngineStartStopMixin, TyreMixin, MileageBeforeMaintenanceMixin):
     def __init__(self, car_model: str, car_body: str, color: str, car_mileage: float, fuel_type: str,
                  power_reserve: float = "Не задано"):
         super().__init__(car_model, car_body, color, car_mileage)
