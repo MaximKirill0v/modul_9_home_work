@@ -54,8 +54,9 @@ class Circle:
 
 
 def execute_application():
-    circle_1 = Circle(20)
+    circle_1 = Circle(10)
     circle_2 = Circle(20)
+
     try:
         print("Проверка на оператор 'равно':", circle_1 == circle_2)
         print("Проверка на оператор 'не равно':", circle_1 != circle_2)
