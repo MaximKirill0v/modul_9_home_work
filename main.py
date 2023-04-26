@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from copy import copy
 
 
 # Задание 2.
@@ -17,40 +18,44 @@ from abc import ABC, abstractmethod
 # def getPermissions(self):
 # self.auth.doAuthentication()
 class Authentication(ABC):
-    @staticmethod
+
     @abstractmethod
-    def do_authentication():
+    def do_authentication(self, nick_name: str):
         pass
 
 
 class AnonymousAuthentication(Authentication):
-    def do_authentication(self):
-        pass
+    def do_authentication(self, nick_name: str):
+        print(f"{nick_name} - вы прошли анонимную аутентификацию.")
 
 
 class GithubAuthentication(Authentication):
 
-    def do_authentication(self):
-        pass
+    def do_authentication(self, nick_name: str):
+        print(f"{nick_name} - вы прошли аутентификацию GitHub.")
 
 
 class FacebookAuthentication(Authentication):
 
-    def do_authentication(self):
-        pass
+    def do_authentication(self, nick_name: str):
+        print(f"{nick_name} - вы прошли аутентификацию на Facebook.")
 
 
 class Permissions:
 
     def __init__(self, auth: AnonymousAuthentication):
-        self.__auth = auth
+        self.__auth = copy(auth)
 
-    def get_permissions(self):
-        self.__auth.do_authentication()
+    def get_permissions(self, nick_name: str):
+        self.__auth.do_authentication(nick_name)
 
 
 def execute_application():
-    pass
+    auth = AnonymousAuthentication()
+    auth.do_authentication("Anonim")
+
+    anonim = Permissions(auth)
+    anonim.get_permissions("Maxim")
 
 
 if __name__ == '__main__':
