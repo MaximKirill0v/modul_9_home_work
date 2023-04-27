@@ -76,8 +76,12 @@ class Circle:
                     f" не может быть отрицательным или быть равным нулю.")
             t = self.__radius + other
             return Circle(t)
+
+        if isinstance(other, Circle):
+            t = self.__radius + other.__radius
+            return Circle(t)
         raise TypeError(
-            f"Невозможно выполнить сложение между типом {self.__class__.__name__} и {other.__class__.__name__}")
+            f"Невозможно выполнить сложение между типом {self.__class__.__name__} и {other.__class__.__name__}.")
 
     def __sub__(self, other):
         if isinstance(other, int | float):
@@ -87,8 +91,55 @@ class Circle:
                     f" не может быть отрицательным или быть равным нулю.")
             t = self.__radius - other
             return Circle(t)
+
+        if isinstance(other, Circle):
+            if other.__radius >= self.__radius:
+                raise InvalidValueError(
+                    f"Величина вычитаемого радиуса больше либо равна, чем величина радиуса из которого вычитаем. "
+                    f"Радиус окружности не может быть отрицательным или быть равным нулю.")
+            t = self.__radius - other.__radius
+            return Circle(t)
         raise TypeError(
-            f"Невозможно выполнить сложение между типом {self.__class__.__name__} и {other.__class__.__name__}")
+            f"Невозможно выполнить вычитание между типом {self.__class__.__name__} и {other.__class__.__name__}.")
+
+    def __iadd__(self, other):
+        if isinstance(other, int | float):
+            if abs(other) >= self.__radius and other < 0:
+                raise InvalidValueError(
+                    f"Невозможно выполнить операцию сложения с отрицательным числом, большим по модулю "
+                    f"чем радиус окружности. Радиус окружности"
+                    f" не может быть отрицательным или быть равным нулю.")
+            self.__radius = self.__radius + other
+            return self
+
+        if isinstance(other, Circle):
+            self.__radius = self.__radius + other.__radius
+            return self
+        raise TypeError(
+            f"Невозможно выполнить сложение с присваиванием между типом {self.__class__.__name__} и "
+            f"{other.__class__.__name__}.")
+
+    def __isub__(self, other):
+        if isinstance(other, int | float):
+            if abs(other) >= self.__radius:
+                raise InvalidValueError(
+                    f"Невозможно выполнить операцию сложения с отрицательным числом, большим по модулю "
+                    f"чем радиус окружности. Радиус окружности"
+                    f" не может быть отрицательным или быть равным нулю.")
+            self.__radius = self.__radius - other
+            return self
+
+        if isinstance(other, Circle):
+            if other.__radius >= self.__radius:
+                raise InvalidValueError(
+                    f"Величина вычитаемого радиуса больше либо равна, чем величина радиуса из которого вычитаем. "
+                    f"Радиус окружности не может быть отрицательным или быть равным нулю.")
+            self.__radius = self.__radius - other.__radius
+            return self
+
+        raise TypeError(
+            f"Невозможно выполнить вычитание с присваиванием между типом {self.__class__.__name__} и "
+            f"{other.__class__.__name__}.")
 
 
 def execute_application():
@@ -105,11 +156,22 @@ def execute_application():
     except TypeError as e:
         print(e)
 
+    circle_1 = Circle(10)
+    circle_2 = Circle(5)
     try:
         circle_3 = circle_1 + 10
-        print(circle_3.radius)
+        # circle_3 = circle_1 + circle_2
+        print(f"\nОперация сложения: {circle_3.radius}.")
         circle_3 = circle_1 - 3
-        print(circle_3.radius)
+        # circle_3 = circle_1 - circle_2
+        print(f"Операция вычитания: {circle_3.radius}.")
+        circle_1 += 12
+        # circle_1 += circle_2
+        print(f"Операция сложения с присваиванием: {circle_1.radius}.")
+        circle_1 -= 12
+        # circle_1 -= circle_2
+        print(f"Операция вычитания с присваиванием: {circle_1.radius}.")
+
     except Exception as e:
         print(e)
 
