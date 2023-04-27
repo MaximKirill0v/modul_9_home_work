@@ -64,13 +64,27 @@ class Fraction(DenominatorError):
         if isinstance(other, int | float):
             return self.__numerator / self.__denominator != other
 
+    def __lt__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            return self.__numerator / self.__denominator < other.__numerator / other.__denominator
+        if isinstance(other, int | float):
+            return self.__numerator / self.__denominator < other
+
+    def __gt__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            return self.__numerator / self.__denominator > other.__numerator / other.__denominator
+        if isinstance(other, int | float):
+            return self.__numerator / self.__denominator > other
+
 
 def execute_application():
     fraction_1 = None
     fraction_2 = None
     try:
-        fraction_1 = Fraction(5, 10)
-        fraction_2 = Fraction(5, 5)
+        fraction_1 = Fraction(6, 2)
+        fraction_2 = Fraction(8, 4)
     except DenominatorError as e:
         print(e)
 
@@ -82,6 +96,14 @@ def execute_application():
         print(f"\nСравнение на не равенство дробей:", fraction_1 != fraction_2)
         print(f"Сравнение на не равенство дроби и целого числа:", fraction_1 != 1)
         print(f"Сравнение на не равенство дроби и числа с плавающей точкой:", fraction_1 != 0.5)
+
+        print(f"\nСравнение дробей на оператор меньше:", fraction_1 < fraction_2)
+        print(f"Сравнение дроби и целого числа на оператор меньше:", fraction_1 < 10)
+        print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше:", fraction_1 < 1.2)
+
+        print(f"\nСравнение дробей на оператор больше:", fraction_1 > fraction_2)
+        print(f"Сравнение дроби и целого числа на оператор больше:", fraction_1 > 10)
+        print(f"Сравнение дроби и числа с плавающей точкой на оператор больше:", fraction_1 > 1.2)
     except TypeError as e:
         print(e)
 
