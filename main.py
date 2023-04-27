@@ -42,13 +42,47 @@ class Fraction(DenominatorError):
             return f"{int(self.__numerator)}"
         return f"{int(self.__numerator)}/{int(self.__denominator)}"
 
+    def __is_fraction(self, other):
+        if not isinstance(other, Fraction | int | float):
+            raise TypeError(f"Невозможно выполнить операции сравнения между типами {self.__class__.__name__} и "
+                            f"{other.__class__.__name__}")
+
+    def __hash__(self):
+        return hash((self.__numerator, self.__denominator))
+
+    def __eq__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            return self.__numerator == other.__numerator and self.__denominator == other.__denominator
+        if isinstance(other, int | float):
+            return self.__numerator / self.__denominator == other
+
+    def __ne__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            return self.__numerator != other.__numerator or self.__denominator != other.__denominator
+        if isinstance(other, int | float):
+            return self.__numerator / self.__denominator != other
+
 
 def execute_application():
+    fraction_1 = None
+    fraction_2 = None
     try:
-        fraction = Fraction(10, 5)
-        print(fraction)
-
+        fraction_1 = Fraction(5, 10)
+        fraction_2 = Fraction(5, 5)
     except DenominatorError as e:
+        print(e)
+
+    try:
+        print(f"Сравнение на равенство дробей:", fraction_1 == fraction_2)
+        print(f"Сравнение на равенство дроби и целого числа:", fraction_1 == 1)
+        print(f"Сравнение на равенство дроби и числа с плавающей точкой:", fraction_1 == 0.5)
+
+        print(f"\nСравнение на не равенство дробей:", fraction_1 != fraction_2)
+        print(f"Сравнение на не равенство дроби и целого числа:", fraction_1 != 1)
+        print(f"Сравнение на не равенство дроби и числа с плавающей точкой:", fraction_1 != 0.5)
+    except TypeError as e:
         print(e)
 
 
