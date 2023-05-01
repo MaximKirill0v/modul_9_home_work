@@ -124,6 +124,7 @@ class Fraction(DenominatorError):
         if isinstance(other, Fraction):
             if self.__denominator == other.__denominator:
                 self.__numerator = self.__numerator + other.__numerator
+                self.__get_fraction_reduction()
                 return self
             else:
                 self.__numerator = (self.__numerator * other.__denominator + other.__numerator * self.__denominator)
@@ -154,6 +155,7 @@ class Fraction(DenominatorError):
         if isinstance(other, Fraction):
             if self.__denominator == other.__denominator:
                 self.__numerator = self.__numerator - other.__numerator
+                self.__get_fraction_reduction()
                 return self
             else:
                 self.__numerator = (self.__numerator * other.__denominator - other.__numerator * self.__denominator)
@@ -214,35 +216,33 @@ def execute_application():
     try:
         fraction_1 = Fraction(4, 7)
         fraction_2 = Fraction(2, 5)
-        fraction_1 /= 4
-        print(fraction_1)
     except DenominatorError as e:
         print(e)
 
     try:
-        # print(f"Сравнение на равенство дробей:", fraction_1 == fraction_2)
-        # print(f"Сравнение на равенство дроби и целого числа:", fraction_1 == 1)
-        # print(f"Сравнение на равенство дроби и числа с плавающей точкой:", fraction_1 == 0.5)
-        #
-        # print(f"\nСравнение на не равенство дробей:", fraction_1 != fraction_2)
-        # print(f"Сравнение на не равенство дроби и целого числа:", fraction_1 != 1)
-        # print(f"Сравнение на не равенство дроби и числа с плавающей точкой:", fraction_1 != 0.5)
-        #
-        # print(f"\nСравнение дробей на оператор меньше:", fraction_1 < fraction_2)
-        # print(f"Сравнение дроби и целого числа на оператор меньше:", fraction_1 < 10)
-        # print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше:", fraction_1 < 1.2)
-        #
-        # print(f"\nСравнение дробей на оператор больше:", fraction_1 > fraction_2)
-        # print(f"Сравнение дроби и целого числа на оператор больше:", fraction_1 > 10)
-        # print(f"Сравнение дроби и числа с плавающей точкой на оператор больше:", fraction_1 > 1.2)
-        #
-        # print(f"\nСравнение дробей на оператор меньше либо равно:", fraction_1 <= fraction_2)
-        # print(f"Сравнение дроби и целого числа на оператор меньше либо равно:", fraction_1 <= 10)
-        # print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше либо равно:", fraction_1 <= 1.2)
-        #
-        # print(f"\nСравнение дробей на оператор больше либо равно:", fraction_1 >= fraction_2)
-        # print(f"Сравнение дроби и целого числа на оператор больше либо равно:", fraction_1 >= 10)
-        # print(f"Сравнение дроби и числа с плавающей точкой на оператор больше либо равно:", fraction_1 >= 1.2)
+        print(f"Сравнение на равенство дробей:", fraction_1 == fraction_2)
+        print(f"Сравнение на равенство дроби и целого числа:", fraction_1 == 1)
+        print(f"Сравнение на равенство дроби и числа с плавающей точкой:", fraction_1 == 0.5)
+
+        print(f"\nСравнение на не равенство дробей:", fraction_1 != fraction_2)
+        print(f"Сравнение на не равенство дроби и целого числа:", fraction_1 != 1)
+        print(f"Сравнение на не равенство дроби и числа с плавающей точкой:", fraction_1 != 0.5)
+
+        print(f"\nСравнение дробей на оператор меньше:", fraction_1 < fraction_2)
+        print(f"Сравнение дроби и целого числа на оператор меньше:", fraction_1 < 10)
+        print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше:", fraction_1 < 1.2)
+
+        print(f"\nСравнение дробей на оператор больше:", fraction_1 > fraction_2)
+        print(f"Сравнение дроби и целого числа на оператор больше:", fraction_1 > 10)
+        print(f"Сравнение дроби и числа с плавающей точкой на оператор больше:", fraction_1 > 1.2)
+
+        print(f"\nСравнение дробей на оператор меньше либо равно:", fraction_1 <= fraction_2)
+        print(f"Сравнение дроби и целого числа на оператор меньше либо равно:", fraction_1 <= 10)
+        print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше либо равно:", fraction_1 <= 1.2)
+
+        print(f"\nСравнение дробей на оператор больше либо равно:", fraction_1 >= fraction_2)
+        print(f"Сравнение дроби и целого числа на оператор больше либо равно:", fraction_1 >= 10)
+        print(f"Сравнение дроби и числа с плавающей точкой на оператор больше либо равно:", fraction_1 >= 1.2)
 
         print(f"\nОперация сложения двух дробей: {fraction_1} + {fraction_2} =", fraction_1 + fraction_2)
         print(f"Операция сложения дроби и целого числа: {fraction_1} + {number} =", fraction_1 + number)
@@ -277,8 +277,6 @@ def execute_application():
               f" ответ: {fraction_1 / fraction_2}")
         print(f"Операция деления  с присваиванием дроби на число: {fraction_1} /= {number}"
               f" ответ: {fraction_1 / number}")
-
-
 
     except TypeError as e:
         print(e)
