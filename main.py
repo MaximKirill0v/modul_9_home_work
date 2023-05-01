@@ -102,6 +102,20 @@ class Fraction(DenominatorError):
             temp_numerator = self.__numerator + other * self.__denominator
             return Fraction(int(temp_numerator), int(self.__denominator))
 
+    def __iadd__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            if self.__denominator == other.__denominator:
+                self.__numerator = self.__numerator + other.__numerator
+                return self
+            else:
+                self.__numerator = (self.__numerator * other.__denominator + other.__numerator * self.__denominator)
+                self.__denominator = self.__denominator * other.__denominator
+                return self
+        if isinstance(other, int):
+            self.__numerator = self.__numerator + other * self.__denominator
+            return self
+
     def __sub__(self, other):
         self.__is_fraction(other)
         if isinstance(other, Fraction):
@@ -116,6 +130,20 @@ class Fraction(DenominatorError):
             temp_numerator = self.__numerator - other * self.__denominator
             return Fraction(int(temp_numerator), int(self.__denominator))
 
+    def __isub__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            if self.__denominator == other.__denominator:
+                self.__numerator = self.__numerator - other.__numerator
+                return self
+            else:
+                self.__numerator = (self.__numerator * other.__denominator - other.__numerator * self.__denominator)
+                self.__denominator = self.__denominator * other.__denominator
+                return self
+        if isinstance(other, int):
+            self.__numerator = self.__numerator - other * self.__denominator
+            return self
+
 
 def execute_application():
     fraction_1 = None
@@ -123,7 +151,7 @@ def execute_application():
     number = 2
     try:
         fraction_1 = Fraction(1, 2)
-        fraction_2 = Fraction(1, 2)
+        fraction_2 = Fraction(1, 4)
     except DenominatorError as e:
         print(e)
 
@@ -153,10 +181,22 @@ def execute_application():
         # print(f"Сравнение дроби и числа с плавающей точкой на оператор больше либо равно:", fraction_1 >= 1.2)
 
         print(f"\nОперация сложения двух дробей: {fraction_1} + {fraction_2} =", fraction_1 + fraction_2)
-        print(f"Операция сложения дроби и целого числа: {fraction_1} + {number} =", fraction_1)
+        print(f"Операция сложения дроби и целого числа: {fraction_1} + {number} =", fraction_1 + number)
+
+        print(f"\nОперация сложения с присваиванием двух дробей: "
+              f"{fraction_1} += {fraction_2}, ответ: {fraction_1 + fraction_2}")
+
+        print(f"Операция сложения c присваиванием дроби и целого числа:"
+              f" {fraction_1} += {number}, ответ: {fraction_1 + number}")
 
         print(f"\nОперация вычитания двух дробей: {fraction_1} - {fraction_2} =", fraction_1 - fraction_2)
         print(f"Операция вычитания дроби и целого числа: {fraction_1} - {number} =", fraction_1 - number)
+
+        print(f"\nОперация вычитания с присваиванием двух дробей: "
+              f"{fraction_1} -= {fraction_2}, ответ: {fraction_1 - fraction_2}")
+
+        print(f"Операция вычитания c присваиванием дроби и целого числа:"
+              f" {fraction_1} -= {number}, ответ: {fraction_1 - number}")
 
         print(f"\nОперация умножения дробей: {fraction_1} * {fraction_2} =", )
         print(f"Операция умножения дроби на число: {fraction_1} * {number} =", )
