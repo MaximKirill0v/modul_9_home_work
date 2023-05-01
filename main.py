@@ -40,8 +40,8 @@ class Fraction(DenominatorError):
 
     def __is_fraction(self, other):
         if not isinstance(other, Fraction | int | float):
-            raise TypeError(f"Невозможно выполнить операции сравнения между типами {self.__class__.__name__} и "
-                            f"{other.__class__.__name__}")
+            raise TypeError(f"Невозможно выполнить арифметические операции между типами {self.__class__.__name__} и "
+                            f"{other.__class__.__name__}.")
 
     def __hash__(self):
         return hash((self.__numerator, self.__denominator))
@@ -144,13 +144,30 @@ class Fraction(DenominatorError):
             self.__numerator = self.__numerator - other * self.__denominator
             return self
 
+    def __mul__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            return Fraction(int(self.__numerator * other.__numerator), int(self.__denominator * other.__denominator))
+        if isinstance(other, int):
+            return Fraction(int(self.__numerator * other), int(self.__denominator))
+
+    def __imul__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            self.__numerator = self.__numerator * other.__numerator
+            self.__denominator = self.__denominator * self.__denominator
+            return self
+        if isinstance(other, int):
+            self.__numerator = self.__numerator * other
+            return self
+
 
 def execute_application():
     fraction_1 = None
     fraction_2 = None
-    number = 2
+    number = 4
     try:
-        fraction_1 = Fraction(1, 2)
+        fraction_1 = Fraction(1, 4)
         fraction_2 = Fraction(1, 4)
     except DenominatorError as e:
         print(e)
@@ -198,8 +215,13 @@ def execute_application():
         print(f"Операция вычитания c присваиванием дроби и целого числа:"
               f" {fraction_1} -= {number}, ответ: {fraction_1 - number}")
 
-        print(f"\nОперация умножения дробей: {fraction_1} * {fraction_2} =", )
-        print(f"Операция умножения дроби на число: {fraction_1} * {number} =", )
+        print(f"\nОперация умножения дробей: {fraction_1} * {fraction_2} =", fraction_1 * fraction_2)
+        print(f"Операция умножения дроби на число: {fraction_1} * {number} =", fraction_1 * number)
+
+        print(f"\nОперация умножения с присваиванием дробей: {fraction_1} *= {fraction_2}"
+              f" ответ: {fraction_1 * fraction_2}")
+        print(f"Операция умножения  с присваиванием дроби на число: {fraction_1} *= {number}"
+              f" ответ: {fraction_1 * number}")
 
     except TypeError as e:
         print(e)
