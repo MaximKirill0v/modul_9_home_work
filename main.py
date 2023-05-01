@@ -33,6 +33,23 @@ class Fraction(DenominatorError):
         else:
             raise DenominatorError("Знаменатель не может быть меньше или равен нулю.")
 
+    def __get_fraction_reduction(self):
+
+        num_1 = abs(self.__numerator)
+        num_2 = abs(self.__denominator)
+        while num_1 != 0 and num_2 != 0:
+            if num_1 > num_2:
+                num_1 %= num_2
+            else:
+                num_2 %= num_1
+        if num_1 > 0:
+            self.__numerator = self.__numerator / num_1
+            self.__denominator = self.__denominator / num_1
+        else:
+            self.__numerator = self.__numerator / num_2
+            self.__denominator = self.__denominator / num_2
+        return Fraction(self.__numerator, self.__denominator)
+
     def __str__(self):
         if self.__denominator == 1:
             return f"{int(self.__numerator)}"
@@ -111,9 +128,11 @@ class Fraction(DenominatorError):
             else:
                 self.__numerator = (self.__numerator * other.__denominator + other.__numerator * self.__denominator)
                 self.__denominator = self.__denominator * other.__denominator
+                self.__get_fraction_reduction()
                 return self
         if isinstance(other, int):
             self.__numerator = self.__numerator + other * self.__denominator
+            self.__get_fraction_reduction()
             return self
 
     def __sub__(self, other):
@@ -139,9 +158,11 @@ class Fraction(DenominatorError):
             else:
                 self.__numerator = (self.__numerator * other.__denominator - other.__numerator * self.__denominator)
                 self.__denominator = self.__denominator * other.__denominator
+                self.__get_fraction_reduction()
                 return self
         if isinstance(other, int):
             self.__numerator = self.__numerator - other * self.__denominator
+            self.__get_fraction_reduction()
             return self
 
     def __mul__(self, other):
@@ -156,9 +177,33 @@ class Fraction(DenominatorError):
         if isinstance(other, Fraction):
             self.__numerator = self.__numerator * other.__numerator
             self.__denominator = self.__denominator * self.__denominator
+            self.__get_fraction_reduction()
             return self
         if isinstance(other, int):
             self.__numerator = self.__numerator * other
+            self.__get_fraction_reduction()
+            return self
+
+    def __truediv__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            temp_numerator = self.__numerator * other.__denominator
+            temp_denominator = self.__denominator * other.__numerator
+            return Fraction(int(temp_numerator), int(temp_denominator))
+        if isinstance(other, int):
+            temp_denominator = self.__denominator * other
+            return Fraction(int(self.__numerator), int(temp_denominator))
+
+    def __itruediv__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            self.__numerator = self.__numerator * other.__denominator
+            self.__denominator = self.__denominator * other.__numerator
+            self.__get_fraction_reduction()
+            return self
+        if isinstance(other, int):
+            self.__denominator = self.__denominator * other
+            self.__get_fraction_reduction()
             return self
 
 
@@ -167,8 +212,10 @@ def execute_application():
     fraction_2 = None
     number = 4
     try:
-        fraction_1 = Fraction(1, 4)
-        fraction_2 = Fraction(1, 4)
+        fraction_1 = Fraction(4, 7)
+        fraction_2 = Fraction(2, 5)
+        fraction_1 /= 4
+        print(fraction_1)
     except DenominatorError as e:
         print(e)
 
@@ -222,6 +269,16 @@ def execute_application():
               f" ответ: {fraction_1 * fraction_2}")
         print(f"Операция умножения  с присваиванием дроби на число: {fraction_1} *= {number}"
               f" ответ: {fraction_1 * number}")
+
+        print(f"\nОперация деления дробей: {fraction_1} / {fraction_2} =", fraction_1 / fraction_2)
+        print(f"Операция деления дроби на число: {fraction_1} / {number} =", fraction_1 / number)
+
+        print(f"\nОперация деления с присваиванием дробей: {fraction_1} /= {fraction_2}"
+              f" ответ: {fraction_1 / fraction_2}")
+        print(f"Операция деления  с присваиванием дроби на число: {fraction_1} /= {number}"
+              f" ответ: {fraction_1 / number}")
+
+
 
     except TypeError as e:
         print(e)
