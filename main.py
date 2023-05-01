@@ -102,13 +102,28 @@ class Fraction(DenominatorError):
             temp_numerator = self.__numerator + other * self.__denominator
             return Fraction(int(temp_numerator), int(self.__denominator))
 
+    def __sub__(self, other):
+        self.__is_fraction(other)
+        if isinstance(other, Fraction):
+            if self.__denominator == other.__denominator:
+                t = self.__numerator - other.__numerator
+                return Fraction(int(t), int(self.__denominator))
+            else:
+                temp_numerator = (self.__numerator * other.__denominator - other.__numerator * self.__denominator)
+                temp_denominator = self.__denominator * other.__denominator
+                return Fraction(int(temp_numerator), int(temp_denominator))
+        if isinstance(other, int):
+            temp_numerator = self.__numerator - other * self.__denominator
+            return Fraction(int(temp_numerator), int(self.__denominator))
+
 
 def execute_application():
     fraction_1 = None
     fraction_2 = None
+    number = 2
     try:
         fraction_1 = Fraction(1, 2)
-        fraction_2 = Fraction(1, 5)
+        fraction_2 = Fraction(1, 2)
     except DenominatorError as e:
         print(e)
 
@@ -137,8 +152,14 @@ def execute_application():
         # print(f"Сравнение дроби и целого числа на оператор больше либо равно:", fraction_1 >= 10)
         # print(f"Сравнение дроби и числа с плавающей точкой на оператор больше либо равно:", fraction_1 >= 1.2)
 
-        print(f"\nОперация сложения двух дробей:", fraction_1 + fraction_2)
-        print(f"Операция сложения дроби и целого числа:", fraction_1 + 2)
+        print(f"\nОперация сложения двух дробей: {fraction_1} + {fraction_2} =", fraction_1 + fraction_2)
+        print(f"Операция сложения дроби и целого числа: {fraction_1} + {number} =", fraction_1)
+
+        print(f"\nОперация вычитания двух дробей: {fraction_1} - {fraction_2} =", fraction_1 - fraction_2)
+        print(f"Операция вычитания дроби и целого числа: {fraction_1} - {number} =", fraction_1 - number)
+
+        print(f"\nОперация умножения дробей: {fraction_1} * {fraction_2} =", )
+        print(f"Операция умножения дроби на число: {fraction_1} * {number} =", )
 
     except TypeError as e:
         print(e)
