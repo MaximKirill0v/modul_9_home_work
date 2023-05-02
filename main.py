@@ -52,38 +52,80 @@ class RetailItem:
 
 class CashRegister:
     def __init__(self):
-        self.__all_items = list()
+        self.__all_items = dict()
 
-    def purchase_item(self, item: RetailItem, value: int = 1):
-        item.number_of_units -= value
+    @property
+    def all_items(self):
+        return self.__all_items
+
+    def purchase_item(self, item: RetailItem, quantity: int = 1):
+        """
+        Добавляет в словарь продукты для покупки.
+        :param item: RetailItem: товарная единица.
+        :param quantity: int: количество товарных единиц для покупки.
+        :return:
+        """
+        temp_quantity = quantity
+        item.number_of_units -= quantity
+        # Проверка, что товар есть на складе, прибавляется только имеющийся товар.
         if item.number_of_units < 0:
-            print(f"Товар {item.info_item} закончился на складе.")
-        self.__all_items.append(item)
+            quantity = item.number_of_units + quantity
+            print(f"Товар '{item.info_item}' закончился на складе."
+                  f"В корзину положено {quantity + self.__all_items[item.info_item]['Количество']} шт."
+                  f" вместо {temp_quantity + self.__all_items[item.info_item]['Количество']} шт.")
+        # если товар уже есть в корзине, что бы количество товара прибавлялось
+        # к уже имеющемуся товару, а не перезаписывалось
+        if item.info_item in self.__all_items:
+            self.__all_items[item.info_item]["Количество"] += quantity
+        else:
+            self.__all_items[item.info_item] = {"Количество": quantity, "Цена": item.price}
 
-    def get_total(self):
-        return sum(x.price for x in self.__all_items)
+    def get_total(self) -> float:
+        """
+        Возвращает итоговую стоимость корзины.
+        :return:
+                float: итоговая стоимость корзины.
+        """
+        return sum(values["Цена"] * values["Количество"] for values in self.__all_items.values())
 
     def show_items(self):
+        """
+        Выводит в консоль информацию о покупаемых товарах.
+        :return:
+        """
         if len(self.__all_items) == 0:
             print("Пока ваша корзина пустая.")
         else:
-            print(f"Наименование товара    Цена")
-            for item in self.__all_items:
-                print(item.info_item.ljust(22), str(item.price) + " p.".ljust(10))
+            print(f"Наименование товара    Цена       Количество")
+            for key, values in self.__all_items.items():
+                print(key.ljust(22), str(values["Цена"]).ljust(10), str(values["Количество"]).ljust(5))
+
+    def clear(self):
+        """
+        Очищает словарь товаров.
+        :return:
+        """
+        self.__all_items.clear()
+        print("Спасибо за покупку.")
 
 
 def execute_application():
     chocolate = RetailItem("Snickers", 100, 60)
     lemonade = RetailItem("Дюшес", 50, 45)
     chips = RetailItem("Lays", 200, 100)
+    ice_cream = RetailItem("Нота-Му", 60, 75)
 
     cash_register = CashRegister()
-    cash_register.purchase_item(chocolate, 2)
+    cash_register.purchase_item(chocolate, 5)
     cash_register.purchase_item(lemonade, 4)
     cash_register.purchase_item(chips, 2)
+    cash_register.purchase_item(chocolate, 2)
+    cash_register.purchase_item(ice_cream, 4)
 
     cash_register.show_items()
     print(f"\nИтоговая стоимость: {cash_register.get_total()} р.")
+
+    cash_register.clear()
 
 
 if __name__ == '__main__':
