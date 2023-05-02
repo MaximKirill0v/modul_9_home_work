@@ -37,6 +37,10 @@ class RetailItem:
     def number_of_units(self):
         return self.__number_of_units
 
+    @number_of_units.setter
+    def number_of_units(self, value):
+        self.__number_of_units = value
+
     @property
     def price(self):
         return self.__price
@@ -50,41 +54,36 @@ class CashRegister:
     def __init__(self):
         self.__all_items = list()
 
-    def add_item(self, item: RetailItem):
-        """
-        Добавляет одну единицу товара в список товаров
-        :param item: RetailItem: товарная единица класса RetailItem
-        :return:
-                list: добавляет в список товары класса RetailItem
-        """
+    def purchase_item(self, item: RetailItem, value: int = 1):
+        item.number_of_units -= value
+        if item.number_of_units < 0:
+            print(f"Товар {item.info_item} закончился на складе.")
         self.__all_items.append(item)
 
-    def add_list_items(self, items: list):
-        """
-        Добавляет список единиц товара в список товаров
-        :param items: RetailItem: товарная единица класса RetailItem
-        :return:
-                list: добавляет в список список товаров класса RetailItem
-        """
-        for item in items:
-            self.__all_items.append(item)
+    def get_total(self):
+        return sum(x.price for x in self.__all_items)
 
-    def info(self):
-        print(f"Наименование товара   Количество единиц    Цена")
-        for item in self.__all_items:
-            print(item.info_item.ljust(21), str(item.number_of_units).ljust(20), str(item.price).ljust(10))
+    def show_items(self):
+        if len(self.__all_items) == 0:
+            print("Пока ваша корзина пустая.")
+        else:
+            print(f"Наименование товара    Цена")
+            for item in self.__all_items:
+                print(item.info_item.ljust(22), str(item.price) + " p.".ljust(10))
 
 
 def execute_application():
     chocolate = RetailItem("Snickers", 100, 60)
     lemonade = RetailItem("Дюшес", 50, 45)
     chips = RetailItem("Lays", 200, 100)
-    all_items = [chocolate, lemonade, chips]
 
-    cash_register_1 = CashRegister()
-    cash_register_1.add_list_items(all_items)
-    cash_register_1.info()
+    cash_register = CashRegister()
+    cash_register.purchase_item(chocolate, 2)
+    cash_register.purchase_item(lemonade, 4)
+    cash_register.purchase_item(chips, 2)
 
+    cash_register.show_items()
+    print(f"\nИтоговая стоимость: {cash_register.get_total()} р.")
 
 
 if __name__ == '__main__':
