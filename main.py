@@ -65,20 +65,26 @@ class CashRegister:
         :param quantity: int: количество товарных единиц для покупки.
         :return:
         """
-        temp_quantity = quantity
-        item.number_of_units -= quantity
-        # Проверка, что товар есть на складе, прибавляется только имеющийся товар.
-        if item.number_of_units < 0:
-            quantity = item.number_of_units + quantity
-            print(f"Товар '{item.info_item}' закончился на складе."
-                  f"В корзину положено {quantity + self.__all_items[item.info_item]['Количество']} шт."
-                  f" вместо {temp_quantity + self.__all_items[item.info_item]['Количество']} шт.")
-        # если товар уже есть в корзине, что бы количество товара прибавлялось
-        # к уже имеющемуся товару, а не перезаписывалось
-        if item.info_item in self.__all_items:
-            self.__all_items[item.info_item]["Количество"] += quantity
-        else:
-            self.__all_items[item.info_item] = {"Количество": quantity, "Цена": item.price}
+
+        if quantity <= item.number_of_units:  # Если товара на складе хватает по наличию.
+            item.number_of_units -= quantity
+            if item.info_item in self.__all_items:
+                self.__all_items[item.info_item]["Количество"] += quantity
+            else:
+                self.__all_items[item.info_item] = {"Количество": quantity, "Цена": item.price}
+
+        else:  # Если товара на складе недостаточно.
+            max_quantity = item.number_of_units
+            item.number_of_units = 0
+
+            if item.info_item in self.__all_items:  # Если товар уже есть в корзине
+                self.__all_items[item.info_item]["Количество"] += max_quantity
+                print(f"Товара {item.info_item} на складе не достаточно."
+                      f" В корзину положено {max_quantity} шт.")
+
+            else:
+                self.__all_items[item.info_item] = {"Количество": max_quantity, "Цена": item.price}
+                print(f"Товара {item.info_item} на складе не достаточно. В корзину положено {max_quantity} шт.")
 
     def get_total(self) -> float:
         """
@@ -110,17 +116,17 @@ class CashRegister:
 
 
 def execute_application():
-    chocolate = RetailItem("Snickers", 100, 60)
-    lemonade = RetailItem("Дюшес", 50, 45)
-    chips = RetailItem("Lays", 200, 100)
-    ice_cream = RetailItem("Нота-Му", 60, 75)
+    chocolate = RetailItem("Snickers", 10, 60)
+    lemonade = RetailItem("Дюшес", 10, 45)
+    chips = RetailItem("Lays", 20, 100)
+    ice_cream = RetailItem("Нота-Му", 20, 75)
 
     cash_register = CashRegister()
     cash_register.purchase_item(chocolate, 5)
     cash_register.purchase_item(lemonade, 4)
     cash_register.purchase_item(chips, 2)
-    cash_register.purchase_item(chocolate, 2)
     cash_register.purchase_item(ice_cream, 4)
+    cash_register.purchase_item(chocolate, 3)
 
     cash_register.show_items()
     print(f"\nИтоговая стоимость: {cash_register.get_total()} р.")
