@@ -37,9 +37,9 @@ class CarService:
         print("Информация о машине по номеру.")
 
 
-class BookCarByNumber:
+class RentCarService:
     @staticmethod
-    def book_car_by_number():
+    def rent_car_service():
         print("Машина забронирована по номеру.")
 
 
@@ -48,7 +48,7 @@ def execute_application():
     CarInfoService.car_info_service()
     NotificationService.notification_service()
     CarService.car_service()
-    BookCarByNumber.book_car_by_number()
+    RentCarService.rent_car_service()
 
 
 if __name__ == '__main__':
