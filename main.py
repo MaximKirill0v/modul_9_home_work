@@ -51,34 +51,28 @@ class Client:
 
 
 class NotificationService(ABC):
+    @staticmethod
     @abstractmethod
-    def send_message(self):
+    def send_message(*args):
         pass
 
 
 class EmailNotification(NotificationService):
-    def __init__(self, client: Client):
-        self.__email = client.email
-
-    def send_message(self):
-        print(f"Сообщение отправлено по электронной почте по адресу: '{self.__email}'")
+    @staticmethod
+    def send_message(client: Client):
+        print(f"Сообщение отправлено по электронной почте по адресу: '{client.email}'")
 
 
 class MobileNotification(NotificationService):
-    def __init__(self, client: Client):
-        self.__phone_number = client.phone_number
-
-    def send_message(self):
-        print(f"Сообщение отправлено на номер: '{self.__phone_number}'")
+    @staticmethod
+    def send_message(client: Client):
+        print(f"Сообщение отправлено на номер: '{client.phone_number}'")
 
 
 def execute_application():
     client = Client("maximkir@gmail.com", "8-903-777-44-33")
-
-    email = EmailNotification(client)
-    phone_number = MobileNotification(client)
-    email.send_message()
-    phone_number.send_message()
+    EmailNotification.send_message(client)
+    MobileNotification.send_message(client)
 
 
 if __name__ == '__main__':
