@@ -21,10 +21,20 @@ class InvalidValueError(Exception):
 
 class Circle:
     def __init__(self, radius: float):
-        if radius <= 0:
-            raise InitializationValueError("Радиус окружности должен быть больше нуля.")
         self.__radius = radius
-        self.__circumference = 2 * pi * self.__radius
+
+    def __get_circumference(self):
+        return 2 * pi * self.__radius
+
+    @staticmethod
+    def __is_valid_radius(radius: float):
+        return radius > 0 if isinstance(radius, int | float) else False
+
+    def __setattr__(self, key, value):
+        if key == '_Circle__radius' and not self.__is_valid_radius(value):
+            raise InitializationValueError(f"Не корректное значение радиуса окружности: {value}.")
+        else:
+            object.__setattr__(self, key, value)
 
     @property
     def radius(self):
@@ -50,22 +60,22 @@ class Circle:
 
     def __lt__(self, other):
         self.__is_circle(other)
-        return self.__circumference < other.__circumference
+        return self.__get_circumference() < other.__get_circumference()
 
     def __gt__(self, other):
         self.__is_circle(other)
-        return self.__circumference > other.__circumference
+        return self.__get_circumference() > other.__get_circumference()
 
     def __le__(self, other):
         self.__is_circle(other)
-        return self.__circumference <= other.__circumference
+        return self.__get_circumference() <= other.__get_circumference()
 
     def __ge__(self, other):
         self.__is_circle(other)
-        return self.__circumference >= other.__circumference
+        return self.__get_circumference() >= other.__get_circumference()
 
     def __hash__(self):
-        return hash((self.__radius, self.__circumference))
+        return hash(self.__radius)
 
     def __add__(self, other):
         if isinstance(other, int | float):
@@ -77,12 +87,6 @@ class Circle:
             t = self.__radius + other
             return Circle(t)
 
-        if isinstance(other, Circle):
-            t = self.__radius + other.__radius
-            return Circle(t)
-        raise TypeError(
-            f"Невозможно выполнить сложение между типом {self.__class__.__name__} и {other.__class__.__name__}.")
-
     def __sub__(self, other):
         if isinstance(other, int | float):
             if abs(other) >= self.__radius:
@@ -91,16 +95,6 @@ class Circle:
                     f" не может быть отрицательным или быть равным нулю.")
             t = self.__radius - other
             return Circle(t)
-
-        if isinstance(other, Circle):
-            if other.__radius >= self.__radius:
-                raise InvalidValueError(
-                    f"Величина вычитаемого радиуса больше либо равна, чем величина радиуса из которого вычитаем. "
-                    f"Радиус окружности не может быть отрицательным или быть равным нулю.")
-            t = self.__radius - other.__radius
-            return Circle(t)
-        raise TypeError(
-            f"Невозможно выполнить вычитание между типом {self.__class__.__name__} и {other.__class__.__name__}.")
 
     def __iadd__(self, other):
         if isinstance(other, int | float):
@@ -112,13 +106,6 @@ class Circle:
             self.__radius = self.__radius + other
             return self
 
-        if isinstance(other, Circle):
-            self.__radius = self.__radius + other.__radius
-            return self
-        raise TypeError(
-            f"Невозможно выполнить сложение с присваиванием между типом {self.__class__.__name__} и "
-            f"{other.__class__.__name__}.")
-
     def __isub__(self, other):
         if isinstance(other, int | float):
             if abs(other) >= self.__radius:
@@ -128,18 +115,6 @@ class Circle:
                     f" не может быть отрицательным или быть равным нулю.")
             self.__radius = self.__radius - other
             return self
-
-        if isinstance(other, Circle):
-            if other.__radius >= self.__radius:
-                raise InvalidValueError(
-                    f"Величина вычитаемого радиуса больше либо равна, чем величина радиуса из которого вычитаем. "
-                    f"Радиус окружности не может быть отрицательным или быть равным нулю.")
-            self.__radius = self.__radius - other.__radius
-            return self
-
-        raise TypeError(
-            f"Невозможно выполнить вычитание с присваиванием между типом {self.__class__.__name__} и "
-            f"{other.__class__.__name__}.")
 
 
 def execute_application():
@@ -157,19 +132,15 @@ def execute_application():
         print(e)
 
     circle_1 = Circle(10)
-    circle_2 = Circle(5)
+    num = 3
     try:
-        circle_3 = circle_1 + 10
-        # circle_3 = circle_1 + circle_2
+        circle_3 = circle_1 + num
         print(f"\nОперация сложения: {circle_3.radius}.")
-        circle_3 = circle_1 - 3
-        # circle_3 = circle_1 - circle_2
+        circle_3 = circle_1 - num
         print(f"Операция вычитания: {circle_3.radius}.")
-        circle_1 += 12
-        # circle_1 += circle_2
+        circle_1 += num
         print(f"Операция сложения с присваиванием: {circle_1.radius}.")
-        circle_1 -= 12
-        # circle_1 -= circle_2
+        circle_1 -= num
         print(f"Операция вычитания с присваиванием: {circle_1.radius}.")
 
     except Exception as e:
