@@ -14,10 +14,20 @@ class InitializationValueError(Exception):
 
 class Circle:
     def __init__(self, radius: float):
-        if radius <= 0:
-            raise InitializationValueError("Радиус окружности должен быть больше нуля.")
         self.__radius = radius
-        self.__circumference = 2 * pi * self.__radius
+
+    def __get_circumference(self):
+        return 2 * pi * self.__radius
+
+    @staticmethod
+    def __is_valid_radius(radius: float):
+        return radius > 0 if isinstance(radius, int | float) else False
+
+    def __setattr__(self, key, value):
+        if key == '_Circle__radius' and not self.__is_valid_radius(value):
+            raise InitializationValueError(f"Не корректное значение радиуса окружности: {value}.")
+        else:
+            object.__setattr__(self, key, value)
 
     def __is_circle(self, other):
         if not isinstance(other, Circle):
@@ -35,36 +45,39 @@ class Circle:
 
     def __lt__(self, other):
         self.__is_circle(other)
-        return self.__circumference < other.__circumference
+        return self.__get_circumference() < other.__get_circumference()
 
     def __gt__(self, other):
         self.__is_circle(other)
-        return self.__circumference > other.__circumference
+        return self.__get_circumference() > other.__get_circumference()
 
     def __le__(self, other):
         self.__is_circle(other)
-        return self.__circumference <= other.__circumference
+        return self.__get_circumference() <= other.__get_circumference()
 
     def __ge__(self, other):
         self.__is_circle(other)
-        return self.__circumference >= other.__circumference
+        return self.__get_circumference() >= other.__get_circumference()
 
     def __hash__(self):
-        return hash((self.__radius, self.__circumference))
+        return hash(self.__radius)
 
 
 def execute_application():
-    circle_1 = Circle(10)
-    circle_2 = Circle(20)
-
     try:
-        print("Проверка на оператор 'равно':", circle_1 == circle_2)
-        print("Проверка на оператор 'не равно':", circle_1 != circle_2)
-        print("Проверка на оператор  'меньше':", circle_1 < circle_2)
-        print("Проверка на оператор 'больше':", circle_1 > circle_2)
-        print("Проверка на оператор 'меньше или равно':", circle_1 <= circle_2)
-        print("Проверка на оператор 'больше или равно':", circle_1 >= circle_2)
-    except TypeError as e:
+        circle_1 = Circle(2)
+        circle_2 = Circle(20)
+
+        try:
+            print("Проверка на оператор 'равно':", circle_1 == circle_2)
+            print("Проверка на оператор 'не равно':", circle_1 != circle_2)
+            print("Проверка на оператор  'меньше':", circle_1 < circle_2)
+            print("Проверка на оператор 'больше':", circle_1 > circle_2)
+            print("Проверка на оператор 'меньше или равно':", circle_1 <= circle_2)
+            print("Проверка на оператор 'больше или равно':", circle_1 >= circle_2)
+        except TypeError as e:
+            print(e)
+    except InitializationValueError as e:
         print(e)
 
 
