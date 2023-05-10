@@ -7,10 +7,23 @@
 # Перевод числа в шестнадцатеричную систему счисления.
 # Перевод числа в двоичную систему счисления.
 # Перевод числа в десятичную систему счисления.
+class NotationValueError(Exception):
+    def __init__(self, text: str):
+        self.__text = text
+
+
 class Number:
     def __init__(self, notation: int, num: str):
         self.__notation = notation
         self.__num = num
+
+    @property
+    def notation(self):
+        return self.__notation
+
+    @property
+    def num(self):
+        return self.__num
 
     @staticmethod
     def __is_notation(notation: int):
@@ -51,17 +64,41 @@ class Number:
         return f"Число: {self.__num}, система счисления: {self.__notation}"
 
 
+class NumberSystemsCalculator(NotationValueError):
+    def __init__(self, num: Number):
+        self.__num = num
+
+    def conversion_10_2(self):
+        if self.__num.notation == 10:
+            return f"Число {self.__num.num} в восьмеричной СС равно: {bin(int(self.__num.num))[2:]}"
+        raise NotationValueError(f"Некорректно указано основание числа в десятичной СС: {self.__num.notation}")
+
+    def conversion_10_8(self):
+        if self.__num.notation == 10:
+            return f"Число {self.__num.num} в восьмеричной СС равно: {oct(int(self.__num.num))[2:]}"
+        raise NotationValueError(f"Некорректно указано основание числа в десятичной СС: {self.__num.notation}")
+
+    def conversion_10_16(self):
+        if self.__num.notation == 10:
+            return f"Число {self.__num.num} в шестнадцатеричной СС равно: {hex(int(self.__num.num))[2:]}"
+        raise NotationValueError(f"Некорректно указано основание числа в десятичной СС: {self.__num.notation}")
+
+
+
+
 def execute_application():
     try:
         number_2 = Number(2, '101')
         number_8 = Number(8, '257')
-        number_10 = Number(10, "65")
+        number_10 = Number(10, '299996')
         number_16 = Number(16, '4F5')
-
-        print(number_2)
-        print(number_8)
-        print(number_10)
-        print(number_16)
+        try:
+            calculator = NumberSystemsCalculator(number_10)
+            print(calculator.conversion_10_2())
+            print(calculator.conversion_10_8())
+            print(calculator.conversion_10_16())
+        except NotationValueError as e:
+            print(e)
     except ValueError as e:
         print(e)
 
