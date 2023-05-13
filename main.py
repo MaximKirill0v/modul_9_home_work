@@ -25,6 +25,10 @@ class Number:
     def num(self):
         return self.__num
 
+    @num.setter
+    def num(self, value):
+        self.__num = value
+
     @staticmethod
     def __is_notation(notation: int):
         if isinstance(notation, int):
@@ -65,38 +69,45 @@ class Number:
 
 
 class NumberSystemsCalculator(NotationValueError):
-    def __init__(self, num: Number):
-        self.__num = num
 
-    def conversion_10_2(self):
-        if self.__num.notation == 10:
-            return f"Число {self.__num.num} в восьмеричной СС равно: {bin(int(self.__num.num))[2:]}"
-        raise NotationValueError(f"Некорректно указано основание числа в десятичной СС: {self.__num.notation}")
+    @staticmethod
+    def conversion_2(num: Number):
+        if num.notation != 2:
+            return f"Число в {num.notation}-ой СС {num.num} в двоичной СС равно: {bin(int(str(int(num.num, num.notation))))[2:]}"
+        raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
-    def conversion_10_8(self):
-        if self.__num.notation == 10:
-            return f"Число {self.__num.num} в восьмеричной СС равно: {oct(int(self.__num.num))[2:]}"
-        raise NotationValueError(f"Некорректно указано основание числа в десятичной СС: {self.__num.notation}")
+    @staticmethod
+    def conversion_8(num: Number):
+        if num.notation != 8:
+            return f"Число в {num.notation}-ой СС {num.num} в восьмеричной СС равно: {oct(int(str(int(num.num, 16))))[2:]}"
+        raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
-    def conversion_10_16(self):
-        if self.__num.notation == 10:
-            return f"Число {self.__num.num} в шестнадцатеричной СС равно: {hex(int(self.__num.num))[2:]}"
-        raise NotationValueError(f"Некорректно указано основание числа в десятичной СС: {self.__num.notation}")
+    @staticmethod
+    def conversion_10(num: Number):
+        if num.notation != 10:
+            return f"Число в {num.notation}-ой СС {num.num} в десятеричной СС равно: {int(num.num, num.notation)}"
+        raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
-
+    @staticmethod
+    def conversion_16(num: Number):
+        if num.notation != 16:
+            return f"Число в {num.notation}-ой СС {num.num} в шестнадцатеричной СС равно: {hex(int(num.num))[2:]}"
+        raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
 
 def execute_application():
     try:
         number_2 = Number(2, '101')
         number_8 = Number(8, '257')
-        number_10 = Number(10, '299996')
+        number_10 = Number(10, '29')
         number_16 = Number(16, '4F5')
         try:
-            calculator = NumberSystemsCalculator(number_10)
-            print(calculator.conversion_10_2())
-            print(calculator.conversion_10_8())
-            print(calculator.conversion_10_16())
+            calculator = NumberSystemsCalculator
+            print(calculator.conversion_2(number_8))
+            print(calculator.conversion_8(number_16))
+            print(calculator.conversion_10(number_2))
+            print(calculator.conversion_16(number_10))
+
         except NotationValueError as e:
             print(e)
     except ValueError as e:
