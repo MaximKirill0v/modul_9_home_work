@@ -1,3 +1,6 @@
+from abc import ABC, abstractmethod
+
+
 # Задание 1.
 # Создайте класс «Число», которое хранит его значение и информацию о
 # системе счисления. Создайте несколько экземпляров данного класса.
@@ -68,7 +71,36 @@ class Number:
         return f"Число: {self.__num}, система счисления: {self.__notation}"
 
 
-class NumberSystemsCalculator(NotationValueError):
+class BinaryNumberSystem:
+    @staticmethod
+    @abstractmethod
+    def conversion_2(num: Number):
+        raise NotImplementedError
+
+
+class OctalNumberSystem:
+    @staticmethod
+    @abstractmethod
+    def conversion_8(num: Number):
+        raise NotImplementedError
+
+
+class DecimalNumberSystem:
+    @staticmethod
+    @abstractmethod
+    def conversion_10(num: Number):
+        raise NotImplementedError
+
+
+class HexadecimalNumberSystem:
+    @staticmethod
+    @abstractmethod
+    def conversion_16(num: Number):
+        raise NotImplementedError
+
+
+class NumberSystemsCalculator(BinaryNumberSystem, OctalNumberSystem, DecimalNumberSystem, HexadecimalNumberSystem,
+                              NotationValueError):
 
     @staticmethod
     def conversion_2(num: Number):
