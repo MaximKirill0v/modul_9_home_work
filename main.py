@@ -9,17 +9,12 @@
 # * Деление дробей.
 # * Сравнение дробей
 # В т.ч. Перегрузка операций должна работать с целыми числам
-class DenominatorError(Exception):
-    def __init__(self, text):
-        self.__text = text
-
-
 class InitializationValueError(Exception):
     def __init__(self, text):
         self.__text = text
 
 
-class Fraction(DenominatorError, InitializationValueError):
+class Fraction(InitializationValueError):
     def __init__(self, numerator: int, denominator: int = 1):
         self.__numerator = numerator
         self.__denominator = denominator
