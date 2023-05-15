@@ -1,4 +1,5 @@
 import pickle
+import json
 
 
 # Задание 1.
@@ -70,6 +71,31 @@ class PickleAirplaneAdapter:
             print(e)
 
 
+class JsonAirplaneAdapter:
+    @staticmethod
+    def to_json_passenger_airplane(airplane: PassengerAirplane):
+        if isinstance(airplane, PassengerAirplane):
+            return json.dumps({
+                "Модель": airplane.model,
+                "Пассажировместимость": airplane.passenger_capacity,
+                "Объём топливного бака": airplane.fuel_tank_volume,
+                "Максимальная дальность полёта": airplane.range_of_flight,
+                "Максимальная скорость": airplane.max_speed,
+                "Количество двигателей": airplane.number_engines,
+            })
+        raise TypeError(f"Не поддерживаемый тип объекта для сериализации.")
+
+    @staticmethod
+    def from_json_passenger_airplane(data):
+        obj = json.loads(data)
+        try:
+            return PassengerAirplane(obj["Модель"], obj["Пассажировместимость"], obj["Объём топливного бака"],
+                                     obj["Максимальная дальность полёта"], obj["Максимальная скорость"],
+                                     obj["Количество двигателей"])
+        except AttributeError as e:
+            print(e)
+
+
 def execute_application():
     boeing = PassengerAirplane("Boeing 777", 400, 117000, 6020, 965, 2)
     try:
@@ -77,6 +103,10 @@ def execute_application():
         print(f"*Упаковка объекта класса 'PassengerAirplane' с помощью модуля Pickle:\n{boeing_to_pickle}")
         boeing_from_pickle = PickleAirplaneAdapter.from_pickle_passenger_airplane(boeing_to_pickle)
         print(f"\n*Распаковка объекта класса 'PassengerAirplane' с помощью модуля Pickle:\n{boeing_from_pickle}")
+        boeing_to_json = JsonAirplaneAdapter.to_json_passenger_airplane(boeing)
+        print(f"\n*Упаковка объекта класса 'PassengerAirplane' с помощью модуля Json:\n{boeing_to_json}")
+        boeing_from_json = JsonAirplaneAdapter.from_json_passenger_airplane(boeing_to_json)
+        print(f"\n*Распаковка объекта класса 'PassengerAirplane' с помощью модуля Json:\n{boeing_from_json}")
     except Exception as e:
         print(e)
 
