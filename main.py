@@ -5,9 +5,11 @@
 # Проверка на неравенство площадей квартир (операция !=);
 # Сравнение двух квартир по стоимости (операции >, <, <=, >=).
 class Flat:
-    def __init__(self, square: float, price: float):
+    def __init__(self, square: float):
         self.__square = square
-        self.__price = price
+
+    def __get_price_flat(self):
+        return self.__square * 50000  # параметр 50 000 взял для примера
 
     def __is_flat(self, other):
         if not isinstance(other, Flat):
@@ -25,27 +27,27 @@ class Flat:
 
     def __lt__(self, other):
         self.__is_flat(other)
-        return self.__price < other.__price
+        return self.__get_price_flat() < other.__get_price_flat()
 
     def __gt__(self, other):
         self.__is_flat(other)
-        return self.__price > other.__price
+        return self.__get_price_flat() > other.__get_price_flat()
 
     def __le__(self, other):
         self.__is_flat(other)
-        return self.__price <= other.__price
+        return self.__get_price_flat() > other.__get_price_flat()
 
     def __ge__(self, other):
         self.__is_flat(other)
-        return self.__price >= other.__price
+        return self.__get_price_flat() > other.__get_price_flat()
 
     def __hash__(self):
-        return hash((self.__square, self.__price))
+        return hash(self.__square)
 
 
 def execute_application():
-    flat_1 = Flat(60, 10000000)
-    flat_2 = Flat(80, 10000000)
+    flat_1 = Flat(60)
+    flat_2 = Flat(80)
 
     try:
         print("Проверка на оператор 'равно':", flat_1 == flat_2)
