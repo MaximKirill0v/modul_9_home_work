@@ -41,7 +41,7 @@ class Number:
     def __is_num(self, number: str):
         if self.__notation == 2:
             for num in number:
-                if num not in ('0', '1'):
+                if num not in '01':
                     return False
             return True
         elif self.__notation == 8:
@@ -78,7 +78,7 @@ class NumberSystemsCalculator(ABC):
         raise NotImplementedError
 
 
-class BinaryNumberSystem(NumberSystemsCalculator, NotationValueError):
+class BinaryNumberSystem(NumberSystemsCalculator):
     @staticmethod
     def conversion_number(num: Number):
         if num.notation != 2:
@@ -86,7 +86,7 @@ class BinaryNumberSystem(NumberSystemsCalculator, NotationValueError):
         raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
 
-class OctalNumberSystem(NumberSystemsCalculator, NotationValueError):
+class OctalNumberSystem(NumberSystemsCalculator):
     @staticmethod
     def conversion_number(num: Number):
         if num.notation != 8:
@@ -94,7 +94,7 @@ class OctalNumberSystem(NumberSystemsCalculator, NotationValueError):
         raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
 
-class DecimalNumberSystem(NumberSystemsCalculator, NotationValueError):
+class DecimalNumberSystem(NumberSystemsCalculator):
     @staticmethod
     def conversion_number(num: Number):
         if num.notation != 10:
@@ -102,7 +102,7 @@ class DecimalNumberSystem(NumberSystemsCalculator, NotationValueError):
         raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
 
-class HexadecimalNumberSystem(NumberSystemsCalculator, NotationValueError):
+class HexadecimalNumberSystem(NumberSystemsCalculator):
     @staticmethod
     def conversion_number(num: Number):
         if num.notation != 16:
@@ -112,7 +112,7 @@ class HexadecimalNumberSystem(NumberSystemsCalculator, NotationValueError):
 
 def execute_application():
     try:
-        number_2 = Number(2, '101')
+        number_2 = Number(2, '101110')
         number_8 = Number(8, '257')
         number_10 = Number(10, '29')
         number_16 = Number(16, '4F5')
