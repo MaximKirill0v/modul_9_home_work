@@ -6,6 +6,9 @@ import json
 # Создайте класс «Самолет». Наполните его необходимыми характеристиками и методами. Реализуйте упаковку и
 # распаковку объектов класса «Самолет» с использованием
 # модуля pickle.
+
+# Задание 2.
+# Добавьте к заданию 1 возможность упаковки/распаковки с использованием модуля json.
 class PassengerAirplane:
     def __init__(self, model: str, passenger_capacity: int, fuel_tank_volume: float, range_of_flight: float,
                  max_speed: float, number_engines: int):
@@ -107,7 +110,7 @@ def execute_application():
         print(f"\n*Упаковка объекта класса 'PassengerAirplane' с помощью модуля Json:\n{boeing_to_json}")
         boeing_from_json = JsonAirplaneAdapter.from_json_passenger_airplane(boeing_to_json)
         print(f"\n*Распаковка объекта класса 'PassengerAirplane' с помощью модуля Json:\n{boeing_from_json}")
-    except Exception as e:
+    except (TypeError, AttributeError) as e:
         print(e)
 
 
