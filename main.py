@@ -14,7 +14,7 @@ class InitializationValueError(Exception):
         self.__text = text
 
 
-class Fraction(InitializationValueError):
+class Fraction:
     def __init__(self, numerator: int, denominator: int = 1):
         self.__numerator = numerator
         self.__denominator = denominator
@@ -227,8 +227,8 @@ def execute_application():
     fraction_2 = None
     number = 4
     try:
-        fraction_1 = Fraction(4, 8)
-        fraction_2 = Fraction(2, 6)
+        fraction_1 = Fraction(4, 2)
+        fraction_2 = Fraction(2, 1)
 
         try:
             print(f"Сравнение на равенство дробей:", fraction_1 == fraction_2)
