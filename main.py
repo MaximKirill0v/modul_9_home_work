@@ -356,7 +356,7 @@ def execute_application():
                   f" ответ fraction_1 = {fraction_1 / number}")
 
             to_json_fraction = JsonFractionAdapter.to_json_fraction(FractionJSONConverter.to_dict(fraction_1))
-            print(f"Сериализация объекта класса Fraction с помощью модуля json:\n{to_json_fraction}")
+            print(f"\nСериализация объекта класса Fraction с помощью модуля json:\n{to_json_fraction}")
             from_json_fraction = JsonFractionAdapter.from_json_fraction(to_json_fraction)
             print(f"Десериализация объекта класса Fraction с помощью модуля Json:\n{from_json_fraction}")
 
