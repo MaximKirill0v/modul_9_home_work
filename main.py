@@ -1,3 +1,7 @@
+import pickle
+import json
+
+
 # Задание 1.
 # Создайте класс Обыкновенная дробь. Используя перегрузку операторов
 # реализуйте для него арифметические операции и операции сравнения для
@@ -9,6 +13,9 @@
 # * Деление дробей.
 # * Сравнение дробей
 # В т.ч. Перегрузка операций должна работать с целыми числам
+
+# Задание 3
+# К уже реализованному классу «Дробь» добавьте возможность упаковки и распаковки данных с использованием json и pickle.
 class InitializationValueError(Exception):
     def __init__(self, text):
         self.__text = text
@@ -222,6 +229,37 @@ class Fraction:
             return self
 
 
+class FractionJSONConverter:
+    @staticmethod
+    def to_dict(fraction: Fraction):
+        if isinstance(fraction, Fraction):
+            result = fraction.__dict__
+            result["className"] = fraction.__class__.__name__
+            return result
+        raise TypeError(f"Переданный аргумент не является объектом класса {fraction.__class__.__name__}")
+
+
+class JsonFractionAdapter:
+    @staticmethod
+    def to_json_fraction(d: dict):
+        return json.dumps(d)
+
+    @staticmethod
+    def from_json_fraction(data):
+        obj = json.loads(data)
+
+        try:
+            return Fraction(obj["_Fraction__numerator"], obj["_Fraction__denominator"])
+        except AttributeError as e:
+            print(e)
+
+
+class TestEncoder(json.JSONEncoder):
+    def default(self, other):
+        return {"_Fraction__numerator": other.numerator, "_Fraction__denominator": other.denominator,
+                "className": other.__class__.__name__}
+
+
 def execute_application():
     fraction_1 = None
     fraction_2 = None
@@ -231,63 +269,69 @@ def execute_application():
         fraction_2 = Fraction(2, 1)
 
         try:
-            print(f"Сравнение на равенство дробей:", fraction_1 == fraction_2)
-            print(f"Сравнение на равенство дроби и целого числа:", fraction_1 == 1)
-            print(f"Сравнение на равенство дроби и числа с плавающей точкой:", fraction_1 == 0.5)
+            # print(f"Сравнение на равенство дробей:", fraction_1 == fraction_2)
+            # print(f"Сравнение на равенство дроби и целого числа:", fraction_1 == 1)
+            # print(f"Сравнение на равенство дроби и числа с плавающей точкой:", fraction_1 == 0.5)
+            #
+            # print(f"\nСравнение на не равенство дробей:", fraction_1 != fraction_2)
+            # print(f"Сравнение на не равенство дроби и целого числа:", fraction_1 != 1)
+            # print(f"Сравнение на не равенство дроби и числа с плавающей точкой:", fraction_1 != 0.5)
+            #
+            # print(f"\nСравнение дробей на оператор меньше:", fraction_1 < fraction_2)
+            # print(f"Сравнение дроби и целого числа на оператор меньше:", fraction_1 < 10)
+            # print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше:", fraction_1 < 1.2)
+            #
+            # print(f"\nСравнение дробей на оператор больше:", fraction_1 > fraction_2)
+            # print(f"Сравнение дроби и целого числа на оператор больше:", fraction_1 > 10)
+            # print(f"Сравнение дроби и числа с плавающей точкой на оператор больше:", fraction_1 > 1.2)
+            #
+            # print(f"\nСравнение дробей на оператор меньше либо равно:", fraction_1 <= fraction_2)
+            # print(f"Сравнение дроби и целого числа на оператор меньше либо равно:", fraction_1 <= 10)
+            # print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше либо равно:", fraction_1 <= 1.2)
+            #
+            # print(f"\nСравнение дробей на оператор больше либо равно:", fraction_1 >= fraction_2)
+            # print(f"Сравнение дроби и целого числа на оператор больше либо равно:", fraction_1 >= 10)
+            # print(f"Сравнение дроби и числа с плавающей точкой на оператор больше либо равно:", fraction_1 >= 1.2)
+            #
+            # print(f"\nОперация сложения двух дробей: {fraction_1} + {fraction_2} =", fraction_1 + fraction_2)
+            # print(f"Операция сложения дроби и целого числа: {fraction_1} + {number} =", fraction_1 + number)
+            #
+            # print(f"\nОперация сложения с присваиванием двух дробей: "
+            #       f"{fraction_1} += {fraction_2}, ответ fraction_1 = {fraction_1 + fraction_2}")
+            #
+            # print(f"Операция сложения c присваиванием дроби и целого числа:"
+            #       f" {fraction_1} += {number}, ответ fraction_1 = {fraction_1 + number}")
+            #
+            # print(f"\nОперация вычитания двух дробей: {fraction_1} - {fraction_2} =", fraction_1 - fraction_2)
+            # print(f"Операция вычитания дроби и целого числа: {fraction_1} - {number} =", fraction_1 - number)
+            #
+            # print(f"\nОперация вычитания с присваиванием двух дробей: "
+            #       f"{fraction_1} -= {fraction_2}, ответ fraction_1 = {fraction_1 - fraction_2}")
+            #
+            # print(f"Операция вычитания c присваиванием дроби и целого числа:"
+            #       f" {fraction_1} -= {number}, ответ fraction_1 = {fraction_1 - number}")
+            #
+            # print(f"\nОперация умножения дробей: {fraction_1} * {fraction_2} =", fraction_1 * fraction_2)
+            # print(f"Операция умножения дроби на число: {fraction_1} * {number} =", fraction_1 * number)
+            #
+            # print(f"\nОперация умножения с присваиванием дробей {fraction_1} *= {fraction_2}"
+            #       f" ответ fraction_1 = {fraction_1 * fraction_2}")
+            # print(f"Операция умножения  с присваиванием дроби на число {fraction_1} *= {number}"
+            #       f" ответ fraction_1 = {fraction_1 * number}")
+            #
+            # print(f"\nОперация деления дробей: {fraction_1} / {fraction_2} =", fraction_1 / fraction_2)
+            # print(f"Операция деления дроби на число: {fraction_1} / {number} =", fraction_1 / number)
+            #
+            # print(f"\nОперация деления с присваиванием дробей {fraction_1} /= {fraction_2}"
+            #       f" ответ fraction_1 = {fraction_1 / fraction_2}")
+            # print(f"Операция деления  с присваиванием дроби на число {fraction_1} /= {number}"
+            #       f" ответ fraction_1 = {fraction_1 / number}")
 
-            print(f"\nСравнение на не равенство дробей:", fraction_1 != fraction_2)
-            print(f"Сравнение на не равенство дроби и целого числа:", fraction_1 != 1)
-            print(f"Сравнение на не равенство дроби и числа с плавающей точкой:", fraction_1 != 0.5)
+            to_json_fraction = JsonFractionAdapter.to_json_fraction(FractionJSONConverter.to_dict(fraction_1))
+            print(f"Сериализация объекта класса Fraction с помощью модуля json:\n{to_json_fraction}")
+            from_json_fraction = JsonFractionAdapter.from_json_fraction(to_json_fraction)
+            print(f"Десериализация объекта класса Fraction с помощью модуля Json:\n{from_json_fraction}")
 
-            print(f"\nСравнение дробей на оператор меньше:", fraction_1 < fraction_2)
-            print(f"Сравнение дроби и целого числа на оператор меньше:", fraction_1 < 10)
-            print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше:", fraction_1 < 1.2)
-
-            print(f"\nСравнение дробей на оператор больше:", fraction_1 > fraction_2)
-            print(f"Сравнение дроби и целого числа на оператор больше:", fraction_1 > 10)
-            print(f"Сравнение дроби и числа с плавающей точкой на оператор больше:", fraction_1 > 1.2)
-
-            print(f"\nСравнение дробей на оператор меньше либо равно:", fraction_1 <= fraction_2)
-            print(f"Сравнение дроби и целого числа на оператор меньше либо равно:", fraction_1 <= 10)
-            print(f"Сравнение дроби и числа с плавающей точкой на оператор меньше либо равно:", fraction_1 <= 1.2)
-
-            print(f"\nСравнение дробей на оператор больше либо равно:", fraction_1 >= fraction_2)
-            print(f"Сравнение дроби и целого числа на оператор больше либо равно:", fraction_1 >= 10)
-            print(f"Сравнение дроби и числа с плавающей точкой на оператор больше либо равно:", fraction_1 >= 1.2)
-
-            print(f"\nОперация сложения двух дробей: {fraction_1} + {fraction_2} =", fraction_1 + fraction_2)
-            print(f"Операция сложения дроби и целого числа: {fraction_1} + {number} =", fraction_1 + number)
-
-            print(f"\nОперация сложения с присваиванием двух дробей: "
-                  f"{fraction_1} += {fraction_2}, ответ fraction_1 = {fraction_1 + fraction_2}")
-
-            print(f"Операция сложения c присваиванием дроби и целого числа:"
-                  f" {fraction_1} += {number}, ответ fraction_1 = {fraction_1 + number}")
-
-            print(f"\nОперация вычитания двух дробей: {fraction_1} - {fraction_2} =", fraction_1 - fraction_2)
-            print(f"Операция вычитания дроби и целого числа: {fraction_1} - {number} =", fraction_1 - number)
-
-            print(f"\nОперация вычитания с присваиванием двух дробей: "
-                  f"{fraction_1} -= {fraction_2}, ответ fraction_1 = {fraction_1 - fraction_2}")
-
-            print(f"Операция вычитания c присваиванием дроби и целого числа:"
-                  f" {fraction_1} -= {number}, ответ fraction_1 = {fraction_1 - number}")
-
-            print(f"\nОперация умножения дробей: {fraction_1} * {fraction_2} =", fraction_1 * fraction_2)
-            print(f"Операция умножения дроби на число: {fraction_1} * {number} =", fraction_1 * number)
-
-            print(f"\nОперация умножения с присваиванием дробей {fraction_1} *= {fraction_2}"
-                  f" ответ fraction_1 = {fraction_1 * fraction_2}")
-            print(f"Операция умножения  с присваиванием дроби на число {fraction_1} *= {number}"
-                  f" ответ fraction_1 = {fraction_1 * number}")
-
-            print(f"\nОперация деления дробей: {fraction_1} / {fraction_2} =", fraction_1 / fraction_2)
-            print(f"Операция деления дроби на число: {fraction_1} / {number} =", fraction_1 / number)
-
-            print(f"\nОперация деления с присваиванием дробей {fraction_1} /= {fraction_2}"
-                  f" ответ fraction_1 = {fraction_1 / fraction_2}")
-            print(f"Операция деления  с присваиванием дроби на число {fraction_1} /= {number}"
-                  f" ответ fraction_1 = {fraction_1 / number}")
 
         except TypeError as e:
             print(e)
