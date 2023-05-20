@@ -1,3 +1,7 @@
+import pickle
+import json
+
+
 # Задание 2.
 # Реализуйте класс «Книга». Необходимо хранить в полях класса:
 # название книги, год выпуска, издателя, жанр, автора, цену. Реализуйте
@@ -5,6 +9,8 @@
 # отдельным полям класса через методы класса (геттеры и сеттеры).
 # Реализуйте в классе «Книга» дополнительный метод класса и
 # статический метод.
+
+# К уже реализованному классу «Книга» добавьте возможность упаковки и распаковки данных с использованием json и pickle
 class Book:
     def __init__(self, book_title: str = " ", book_release: int = 0, publisher: str = " ", genre: str = " ",
                  author: str = " ", price: float = 0):
@@ -101,6 +107,55 @@ class Book:
         self.__price = price
 
 
+class PickleBookAdapter:
+    @staticmethod
+    def to_pickle_book(book: Book):
+        if isinstance(book, Book):
+            return pickle.dumps({
+                "_Book__book_title": book.book_title,
+                "_Book__book_release": book.book_release,
+                "_Book__publisher": book.publisher,
+                "_Book__genre": book.genre,
+                "_Book__author": book.author,
+                "_Book__price": book.price,
+            })
+        raise TypeError(f"Переданный аргумент не является объектом класса {book.__class__.__name__}")
+
+    @staticmethod
+    def from_pickle_book(data):
+        obj = pickle.loads(data)
+
+        try:
+            return Book(obj["_Book__book_title"], obj["_Book__book_release"], obj["_Book__publisher"],
+                        obj["_Book__genre"], obj["_Book__author"], obj["_Book__price"])
+        except AttributeError as e:
+            print(e)
+
+class JsonBookAdapter:
+    @staticmethod
+    def to_json_book(book: Book):
+        if isinstance(book, Book):
+            return json.dumps({
+                "_Book__book_title": book.book_title,
+                "_Book__book_release": book.book_release,
+                "_Book__publisher": book.publisher,
+                "_Book__genre": book.genre,
+                "_Book__author": book.author,
+                "_Book__price": book.price,
+            })
+        raise TypeError(f"Переданный аргумент не является объектом класса {book.__class__.__name__}")
+
+    @staticmethod
+    def from_json_book(data):
+        obj = json.loads(data)
+
+        try:
+            return Book(obj["_Book__book_title"], obj["_Book__book_release"], obj["_Book__publisher"],
+                        obj["_Book__genre"], obj["_Book__author"], obj["_Book__price"])
+        except AttributeError as e:
+            print(e)
+
+
 def execute_application():
     path = "./data_books.txt"
     data_books = Book.read_data_books_in_file(path)
@@ -120,6 +175,17 @@ def execute_application():
     book_4 = Book()
     if book_4:
         print(book_4)
+
+    to_pickle_book = PickleBookAdapter.to_pickle_book(data_book_1)
+    print(f"Сериализация объекта класса Book с помощью модуля pickle:\n{to_pickle_book}")
+    from_pickle_book = PickleBookAdapter.from_pickle_book(to_pickle_book)
+    print(f"Десериализация объекта класса Book с помощью модуля pickle:\n{from_pickle_book}")
+    to_json_book = JsonBookAdapter.to_json_book(data_book_2)
+    print(f"Сериализация объекта класса Book с помощью модуля json:\n{to_json_book}")
+    from_json_book = JsonBookAdapter.from_json_book(to_json_book)
+    print(f"Десериализация объекта класса Book с помощью модуля json:\n{from_json_book}")
+
+
 
 
 if __name__ == '__main__':
