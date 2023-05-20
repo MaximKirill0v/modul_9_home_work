@@ -1,3 +1,7 @@
+import pickle
+import json
+
+
 # Задание 1.
 # Реализуйте класс «Автомобиль». Необходимо хранить в полях класса:
 # название модели, год выпуска, производителя, объем двигателя, цвет машины,
@@ -6,6 +10,10 @@
 # и сеттеры).
 # Реализуйте в классе «Автомобиль» дополнительный метод класса и
 # статический метод.
+
+
+# К уже реализованному классу «Автомобиль» добавьте
+# возможность упаковки и распаковки данных с использованием json и pickle.
 
 class Car:
     def __init__(self, name_model: str = None, year_of_manufacture: int = None, manufacturer: str = None,
@@ -98,6 +106,56 @@ class Car:
         self.__price = price
 
 
+class PickleCarAdapter:
+    @staticmethod
+    def to_pickle_car(car: Car):
+        if isinstance(car, Car):
+            return pickle.dumps({
+                "_Car__name_model": car.name_model,
+                "_Car__year_of_manufacture": car.year_of_manufacture,
+                "_Car__manufacturer": car.manufacturer,
+                "_Car__engine_capacity": car.engine_capacity,
+                "_Car__color": car.color,
+                "_Car__price": car.price,
+            })
+        raise TypeError(f"Переданный аргумент не является объектом класса {car.__class__.__name__}")
+
+    @staticmethod
+    def from_pickle_car(data):
+        obj = pickle.loads(data)
+
+        try:
+            return Car(obj["_Car__name_model"], obj["_Car__year_of_manufacture"], obj["_Car__manufacturer"],
+                       obj["_Car__engine_capacity"], obj["_Car__color"], obj["_Car__price"])
+        except AttributeError as e:
+            print(e)
+
+
+class JsonCarAdapter:
+    @staticmethod
+    def to_json_car(car: Car):
+        if isinstance(car, Car):
+            return json.dumps({
+                "_Car__name_model": car.name_model,
+                "_Car__year_of_manufacture": car.year_of_manufacture,
+                "_Car__manufacturer": car.manufacturer,
+                "_Car__engine_capacity": car.engine_capacity,
+                "_Car__color": car.color,
+                "_Car__price": car.price,
+            })
+        raise TypeError(f"Переданный аргумент не является объектом класса {car.__class__.__name__}")
+
+    @staticmethod
+    def from_json_car(data):
+        obj = json.loads(data)
+
+        try:
+            return Car(obj["_Car__name_model"], obj["_Car__year_of_manufacture"], obj["_Car__manufacturer"],
+                       obj["_Car__engine_capacity"], obj["_Car__color"], obj["_Car__price"])
+        except AttributeError as e:
+            print(e)
+
+
 def execute_application():
     my_car = "Mustang", 2017, "Ford", 5.0, "Red", 3500000
     my_car = Car.init_car(my_car)
@@ -106,6 +164,16 @@ def execute_application():
     your_car = "Urus", 2017, "Lamborghini", 4.0, "Yellow", 16500000
     your_car = Car.init_car(your_car)
     print(your_car)
+
+    to_pickle_car = PickleCarAdapter.to_pickle_car(my_car)
+    print(f"Сериализация объекта класса Car с помощью модуля pickle:\n{to_pickle_car}")
+    from_pickle_car = PickleCarAdapter.from_pickle_car(to_pickle_car)
+    print(f"Десериализация объекта класса Car с помощью модуля pickle:\n{from_pickle_car}")
+
+    to_json_car = JsonCarAdapter.to_json_car(your_car)
+    print(f"\nСериализация объекта класса Car с помощью модуля json:\n{to_json_car}")
+    from_json_car = JsonCarAdapter.from_json_car(to_json_car)
+    print(f"Десериализация объекта класса Car с помощью модуля json:\n{from_json_car}")
 
 
 if __name__ == '__main__':
