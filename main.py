@@ -24,6 +24,10 @@ class Time:
             raise InitializationTimeError("Переданное значение не может быть отрицательным")
         self.__value = value
 
+    @property
+    def value(self):
+        return self.__value
+
     @staticmethod
     def __format(time):
         return f"{time // 10}{time % 10}"
@@ -133,9 +137,57 @@ class Time:
                         f"и {other.__class__.__name__}")
 
 
+class PickleTimeAdapter:
+    @staticmethod
+    def to_pickle_time(time: Time):
+        if isinstance(time, Time):
+            return pickle.dumps({
+                "_Time__value": time.value
+            })
+        raise TypeError(f"Переданный аргумент не является объектом класса {time.__class__.__name__}")
+
+    @staticmethod
+    def from_pickle_time(data):
+        obj = pickle.loads(data)
+
+        try:
+            return Time(obj["_Time__value"])
+        except AttributeError as e:
+            print(e)
+
+
+class JsonTimeAdapter:
+    @staticmethod
+    def to_json_time(time: Time):
+        if isinstance(time, Time):
+            return json.dumps({
+                "_Time__value": time.value
+            })
+        raise TypeError(f"Переданный аргумент не является объектом класса {time.__class__.__name__}")
+
+    @staticmethod
+    def from_json_time(data):
+        obj = json.loads(data)
+
+        try:
+            return Time(obj["_Time__value"])
+        except AttributeError as e:
+            print(e)
+
+
 def execute_application():
     time_1 = Time(86401)
     print(time_1)
+
+    to_pickle_time = PickleTimeAdapter.to_pickle_time(time_1)
+    print(f"Сериализация объекта класса Time с помощью модуля pickle:\n{to_pickle_time}")
+    from_pickle_time = PickleTimeAdapter.from_pickle_time(to_pickle_time)
+    print(f"Десериализация объекта класса Time с помощью модуля pickle:\n{from_pickle_time}")
+
+    to_json_time = JsonTimeAdapter.to_json_time(time_1)
+    print(f"\nСериализация объекта класса Time с помощью модуля json:\n{to_json_time}")
+    from_json_time = JsonTimeAdapter.from_json_time(to_json_time)
+    print(f"Десериализация объекта класса Time с помощью модуля json:\n{from_json_time}")
 
 
 if __name__ == '__main__':
