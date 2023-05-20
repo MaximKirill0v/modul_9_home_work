@@ -1,5 +1,7 @@
 from typing import Dict
 import re
+import json
+import pickle
 
 
 # Задание 2.
@@ -9,6 +11,9 @@ import re
 # отдельным полям класса через методы класса (геттеры и сеттеры).
 # Реализуйте в классе «Стадион» дополнительный метод класса и
 # статический метод.
+
+# К уже реализованному классу «Стадион» добавьте
+# возможность упаковки и распаковки данных с использованием json и pickle.
 class Stadium:
 
     def __init__(self, stadium_name: str = None, opening_date: Dict[str, str] = None, country: str = None,
@@ -84,6 +89,63 @@ class Stadium:
         self.__capacity = capacity
 
 
+class PickleStadiumAdapter:
+    @staticmethod
+    def to_pickle_stadium(stadium: Stadium):
+        if isinstance(stadium, Stadium):
+            return pickle.dumps({
+                "_Stadium__stadium_name": stadium.stadium_name,
+                "_Stadium__opening_date": stadium.opening_date,
+                "_Stadium__country": stadium.country,
+                "_Stadium__city": stadium.city,
+                "_Stadium__capacity": stadium.capacity,
+            })
+        raise TypeError(f"Переданный аргумент не является объектом класса {car.__class__.__name__}")
+
+    @staticmethod
+    def from_pickle_stadium(data):
+        obj = pickle.loads(data)
+
+        try:
+            return Stadium(obj["_Stadium__stadium_name"], obj["_Stadium__opening_date"], obj["_Stadium__country"],
+                           obj["_Stadium__city"], obj["_Stadium__capacity"])
+        except AttributeError as e:
+            print(e)
+
+
+class StadiumJSONConverter:
+    @staticmethod
+    def to_dict(stadium: Stadium):
+        if isinstance(stadium, Stadium):
+            result = stadium.__dict__
+            result["className"] = stadium.__class__.__name__
+            return result
+        raise TypeError(f"Переданный аргумент не является объектом класса {stadium.__class__.__name__}")
+
+
+class JsonStadiumAdapter:
+    @staticmethod
+    def to_json_stadium(d: dict):
+        return json.dumps(d)
+
+    @staticmethod
+    def from_json_stadium(data):
+        obj = json.loads(data)
+
+        try:
+            return Stadium(obj["_Stadium__stadium_name"], obj["_Stadium__opening_date"], obj["_Stadium__country"],
+                           obj["_Stadium__city"], obj["_Stadium__capacity"])
+        except AttributeError as e:
+            print(e)
+
+
+class TestEncoder(json.JSONEncoder):
+    def default(self, other):
+        return {"_Stadium__stadium_name": other.stadium_name, "_Stadium__opening_date": other.opening_date,
+                "_Stadium__country": other.country, "_Stadium__city": other.city, "_Stadium__capacity": other.capacity,
+                "className": other.__class__.__name__}
+
+
 def execute_application():
     path_to_file = "data_stadiums.txt"
     try:
@@ -93,6 +155,17 @@ def execute_application():
 
         stadium_2 = Stadium.init_data_stadium_from_file(path_to_file, 1)
         print(stadium_2)
+
+        to_pickle_stadium = PickleStadiumAdapter.to_pickle_stadium(stadium_1)
+        print(f"Сериализация объекта класса Stadium с помощью модуля pickle:\n{to_pickle_stadium}")
+        from_pickle_stadium = PickleStadiumAdapter.from_pickle_stadium(to_pickle_stadium)
+        print(f"Десериализация объекта класса Stadium с помощью модуля pickle:\n{from_pickle_stadium}")
+
+        to_json_stadium = JsonStadiumAdapter.to_json_stadium(StadiumJSONConverter.to_dict(stadium_2))
+        print(f"\nСериализация объекта класса Stadium с помощью модуля json:\n{to_json_stadium}")
+        from_json_stadium = JsonStadiumAdapter.from_json_stadium(to_json_stadium)
+        print(f"Десериализация объекта класса Stadium с помощью модуля Json:\n{from_json_stadium}")
+
     except Exception as e:
         print(e)
 
