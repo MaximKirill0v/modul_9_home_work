@@ -69,26 +69,26 @@ class Digit:
 
 
 class NumberSystemsCalculator:
-    NOTATION_DICT = {'bin': 2, 'oct': 8, 'dec': 10, 'hex': 16}
+    __notation_dict = {'bin': 2, 'oct': 8, 'dec': 10, 'hex': 16}
 
     def digit_to_bin(self, digit: Digit):
         if digit.notation != 'bin':
-            return Digit('bin', bin(int(str(int(digit.num, self.NOTATION_DICT[digit.notation]))))[2:])
+            return Digit('bin', bin(int(str(int(digit.num, self.__notation_dict[digit.notation]))))[2:])
         raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
     def digit_to_oct(self, digit: Digit):
         if digit.notation != 8:
-            return Digit('oct', oct(int(str(int(digit.num, self.NOTATION_DICT[digit.notation]))))[2:])
+            return Digit('oct', oct(int(str(int(digit.num, self.__notation_dict[digit.notation]))))[2:])
         raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
     def digit_to_dec(self, digit: Digit):
         if digit.notation != 10:
-            return Digit('dec', str(int(digit.num, self.NOTATION_DICT[digit.notation])))
+            return Digit('dec', str(int(digit.num, self.__notation_dict[digit.notation])))
         raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
     def digit_to_hex(self, digit: Digit):
         if digit.notation != 16:
-            return Digit('hex', hex(int(digit.num, self.NOTATION_DICT[digit.notation]))[2:])
+            return Digit('hex', hex(int(digit.num, self.__notation_dict[digit.notation]))[2:])
         raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
 
 
