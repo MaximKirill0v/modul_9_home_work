@@ -1,4 +1,3 @@
-
 # Задание 1.
 # Создайте класс «Число», которое хранит его значение и информацию о
 # системе счисления. Создайте несколько экземпляров данного класса.
@@ -14,7 +13,7 @@ class NotationValueError(Exception):
 
 
 class Digit:
-    def __init__(self, notation: str, num: str):
+    def __init__(self, notation: int, num: str):
         self.__notation = notation
         self.__num = num
 
@@ -28,36 +27,36 @@ class Digit:
 
     @staticmethod
     def __is_notation(notation: str):
-        if isinstance(notation, str):
-            return notation in ('bin', 'oct', 'dec', 'hex')
-        return False
+        return isinstance(notation, int) and notation > 0
 
     def __is_num(self, number: str):
-        if self.__notation == 'bin':
+        if self.__notation == 2:
             for num in number:
                 if num not in '01':
                     return False
             return True
 
-        elif self.__notation == 'oct':
+        elif self.__notation == 8:
             for num in number:
                 if num not in '01234567':
                     return False
             return True
 
-        elif self.__notation == 'dec':
+        elif self.__notation == 10:
             for num in number:
                 if num not in '0123456789':
                     return False
             return True
 
-        elif self.__notation == 'hex':
+        elif self.__notation == 16:
             for num in number:
                 if num not in '0123456789abcdefABCDEF':
                     return False
             return True
 
     def __setattr__(self, key, value):
+        if key == '_Digit__notation' and value not in (2, 8, 10, 16):
+            raise ValueError(f"Не поддерживаемая СС: {value}.")
         if key == '_Digit__notation' and not self.__is_notation(value):
             raise ValueError(f"Не корректная запись системы счисления: {value}")
         if key == '_Digit__num' and not self.__is_num(value):
@@ -69,42 +68,51 @@ class Digit:
 
 
 class NumberSystemsCalculator:
-    __notation_dict = {'bin': 2, 'oct': 8, 'dec': 10, 'hex': 16}
 
-    def digit_to_bin(self, digit: Digit):
-        if digit.notation != 'bin':
-            return Digit('bin', bin(int(str(int(digit.num, self.__notation_dict[digit.notation]))))[2:])
-        raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
+    @staticmethod
+    def digit_to_bin(digit: Digit):
+        if digit.notation != 2:
+            return Digit(2, bin(int(str(int(digit.num, digit.notation))))[2:])
+        raise NotationValueError(f"Попытка перевода в ту же СС.")
 
-    def digit_to_oct(self, digit: Digit):
+    @staticmethod
+    def digit_to_oct(digit: Digit):
         if digit.notation != 8:
-            return Digit('oct', oct(int(str(int(digit.num, self.__notation_dict[digit.notation]))))[2:])
-        raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
+            return Digit(8, oct(int(str(int(digit.num, digit.notation))))[2:])
+        raise NotationValueError(f"Попытка перевода в ту же СС.")
 
-    def digit_to_dec(self, digit: Digit):
+    @staticmethod
+    def digit_to_dec(digit: Digit):
+
         if digit.notation != 10:
-            return Digit('dec', str(int(digit.num, self.__notation_dict[digit.notation])))
-        raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
+            return Digit(10, str(int(digit.num, digit.notation)))
+        raise NotationValueError(f"Попытка перевода в ту же СС.")
 
-    def digit_to_hex(self, digit: Digit):
+    @staticmethod
+    def digit_to_hex(digit: Digit):
         if digit.notation != 16:
-            return Digit('hex', hex(int(digit.num, self.__notation_dict[digit.notation]))[2:])
-        raise NotationValueError(f"Ошибка конвертации. Перевод в ту же СС.")
+            return Digit(16, hex(int(digit.num, digit.notation))[2:])
+        raise NotationValueError(f"Попытка перевода в ту же СС.")
 
 
 def execute_application():
     try:
-        number = Digit('dec', '1000')
+        number = Digit(10, '1000')
+        print(f"Число до перевода: СС - {number.notation}, значение - {number.num}")
         try:
             calculator = NumberSystemsCalculator()
 
-            print(calculator.digit_to_hex(number))
+            number = calculator.digit_to_hex(number)
+            print(f"Число после перевода в {number.notation}-ую СС: {number.num}")
 
-            print(calculator.digit_to_oct(number))
+            number = calculator.digit_to_oct(number)
+            print(f"Число после перевода в {number.notation}-ую СС: {number.num}")
 
-            print(calculator.digit_to_bin(number))
+            number = calculator.digit_to_bin(number)
+            print(f"Число после перевода в {number.notation}-ую СС: {number.num}")
 
-            print(calculator.digit_to_dec(number))
+            number = calculator.digit_to_dec(number)
+            print(f"Число после перевода в {number.notation}-ую СС: {number.num}")
 
         except NotationValueError as e:
             print(e)
