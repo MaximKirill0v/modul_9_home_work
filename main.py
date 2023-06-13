@@ -21,6 +21,10 @@ class Digit:
     def notation(self):
         return self.__notation
 
+    @notation.setter
+    def notation(self, value):
+        self.__notation = value
+
     @property
     def num(self):
         return self.__num
@@ -73,19 +77,27 @@ class NumberSystemsCalculator:
     @staticmethod
     def digit_to_bin(digit: Digit):
         if digit.notation != 2:
+            if digit.notation == 1:
+                digit.notation = 10
+                digit.num = str(len(digit.num))
             return Digit(2, bin(int(str(int(digit.num, digit.notation))))[2:])
         raise NotationValueError(f"Попытка перевода в ту же СС.")
 
     @staticmethod
     def digit_to_oct(digit: Digit):
         if digit.notation != 8:
+            if digit.notation == 1:
+                digit.notation = 10
+                digit.num = str(len(digit.num))
             return Digit(8, oct(int(str(int(digit.num, digit.notation))))[2:])
         raise NotationValueError(f"Попытка перевода в ту же СС.")
 
     @staticmethod
     def digit_to_dec(digit: Digit):
-
         if digit.notation != 10:
+            if digit.notation == 1:
+                digit.notation = 10
+                digit.num = str(len(digit.num))
             return Digit(10, str(int(digit.num, digit.notation)))
         raise NotationValueError(f"Попытка перевода в ту же СС.")
 
@@ -93,6 +105,9 @@ class NumberSystemsCalculator:
     @Decorator.uppercase_translation
     def digit_to_hex(digit: Digit):
         if digit.notation != 16:
+            if digit.notation == 1:
+                digit.notation = 10
+                digit.num = str(len(digit.num))
             return Digit(16, hex(int(digit.num, digit.notation))[2:])
         raise NotationValueError(f"Попытка перевода в ту же СС.")
 
