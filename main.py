@@ -25,37 +25,27 @@ class Digit:
     def num(self):
         return self.__num
 
+    @num.setter
+    def num(self, value):
+        self.__num = value
+
     @staticmethod
     def __is_notation(notation: str):
         return isinstance(notation, int) and notation > 0
 
     def __is_num(self, number: str):
-        if self.__notation == 2:
-            for num in number:
-                if num not in '01':
-                    return False
-            return True
 
-        elif self.__notation == 8:
-            for num in number:
-                if num not in '01234567':
-                    return False
-            return True
+        notation_dict = {1: '1', 2: '01', 3: '012', 4: '0123', 5: '01234', 6: '012345', 7: '0123456', 8: '01234567',
+                         9: '012345678', 10: '0123456789', 11: '0123456789A', 12: '0123456789AB', 13: '0123456789ABC',
+                         14: '0123456789ABCD', 15: '0123456789ABCDE', 16: '0123456789ABCDEF'}
 
-        elif self.__notation == 10:
-            for num in number:
-                if num not in '0123456789':
-                    return False
-            return True
-
-        elif self.__notation == 16:
-            for num in number:
-                if num not in '0123456789abcdefABCDEF':
-                    return False
-            return True
+        for num in number:
+            if num.upper() not in notation_dict[self.__notation]:
+                return False
+        return True
 
     def __setattr__(self, key, value):
-        if key == '_Digit__notation' and value not in (2, 8, 10, 16):
+        if key == '_Digit__notation' and value not in range(1, 17):
             raise ValueError(f"Не поддерживаемая СС: {value}.")
         if key == '_Digit__notation' and not self.__is_notation(value):
             raise ValueError(f"Не корректная запись системы счисления: {value}")
@@ -65,6 +55,17 @@ class Digit:
 
     def __str__(self):
         return f"Число: {self.__num}, система счисления: {self.__notation}"
+
+
+class Decorator:
+    @staticmethod
+    def uppercase_translation(func):
+        def wrapper(*args, **kwargs):
+            digit = func(*args, **kwargs)
+            digit.num = digit.num.upper()
+            return digit
+
+        return wrapper
 
 
 class NumberSystemsCalculator:
@@ -89,6 +90,7 @@ class NumberSystemsCalculator:
         raise NotationValueError(f"Попытка перевода в ту же СС.")
 
     @staticmethod
+    @Decorator.uppercase_translation
     def digit_to_hex(digit: Digit):
         if digit.notation != 16:
             return Digit(16, hex(int(digit.num, digit.notation))[2:])
